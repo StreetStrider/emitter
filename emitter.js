@@ -29,7 +29,6 @@ module.exports = function Emitter ()
 			fn  = null
 
 			if (! del) { return }
-			if (! fns) { return }
 
 			if (fns.length > 1)
 			{
