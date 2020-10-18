@@ -1,0 +1,52 @@
+{
+     "name": "@streetstrider/emitter",
+  "version": "0.0.0",
+
+  "description": "event emitter",
+
+   "author": "Strider <strange.transistor@gmail.com>",
+  "license": "ISC",
+
+  "homepage":            "https://github.com/StreetStrider/emitter",
+  "repository": { "url": "https://github.com/StreetStrider/emitter.git", "type": "git" },
+  "bugs":       { "url": "https://github.com/StreetStrider/emitter/issues" },
+
+  "main": "emitter.js",
+
+  "scripts":
+  {
+    "test": "npm run st && npm run unit",
+
+      "st": "eslint .",
+    "unit": "mocha test/test"
+  },
+
+  "files":
+  [
+    "emitter.js"
+  ],
+
+  "dependencies":
+  {
+  },
+
+  "devDependencies":
+  {
+    "eslint":
+      "7",
+
+    "js-outlander":
+      "StrangeTransistor/js-outlander#2.10.0",
+
+
+    "mocha":
+      "8",
+
+    "chai":
+      "4",
+
+
+    "c8":
+      "7"
+  }
+}
