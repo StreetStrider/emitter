@@ -32,7 +32,8 @@ module.exports = function Emitter ()
 
 			if (fns.length > 1)
 			{
-				fns = fns.filter(fn => (fn !== del))
+				var index = fns.indexOf(del)
+				fns = fns.filter((_, fn_index) => (fn_index !== index))
 			}
 			else if (fns[0] === del)
 			{

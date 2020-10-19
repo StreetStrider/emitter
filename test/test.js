@@ -117,4 +117,28 @@ describe('Emitter', () =>
 		expect(r2).eq(11)
 		expect(r3).eq(1)
 	})
+
+	it('disposes single fn', () =>
+	{
+		var e = Emitter()
+
+		var r = 0
+		var f = (x) => { r = (r + x) }
+
+		var ds1 = e.on(f)
+		var ds2 = e.on(f)
+
+		e.emit(2)
+		expect(r).eq(4)
+
+		ds1()
+
+		e.emit(2)
+		expect(r).eq(6)
+
+		ds2()
+
+		e.emit(2)
+		expect(r).eq(6)
+	})
 })
