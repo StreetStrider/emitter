@@ -22,15 +22,6 @@
     "cover": "c8 -r text -r html npm run unit"
   },
 
-  "files":
-  [
-    "emitter.js"
-  ],
-
-  "dependencies":
-  {
-  },
-
   "devDependencies":
   {
     "eslint":
