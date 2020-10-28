@@ -21,22 +21,19 @@ module.exports = function Emitter ()
 	{
 		return () =>
 		{
-			var del
-
-			del = fn
-			fn  = null
-
-			if (! del) { return }
+			if (! fn) { return }
 
 			if (fns.length > 1)
 			{
-				var index = fns.indexOf(del)
+				var index = fns.indexOf(fn)
 				fns = fns.filter((_, fn_index) => (fn_index !== index))
 			}
-			else if (fns[0] === del)
+			else if (fns[0] === fn)
 			{
 				fns = null
 			}
+
+			fn = null
 		}
 	}
 
