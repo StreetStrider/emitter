@@ -12,14 +12,28 @@
   "bugs":       { "url": "https://github.com/StreetStrider/emitter/issues" },
 
   "main": "emitter.js",
+  "files":
+  [
+    "emitter.d.ts"
+  ],
 
   "scripts":
   {
-     "test": "npm run st && npm run unit && npm run cover",
+     "test": "npm run st && npm run ts && npm run unit && npm run cover",
 
        "st": "eslint .",
+
+       "ts": "npm run tsc && npm run tsd",
+      "tsc": "tsc",
+      "tsd": "tsd",
+
      "unit": "mocha test/test",
     "cover": "c8 -r text -r html npm run unit"
+  },
+
+  "tsd":
+  {
+    "directory": "test/"
   },
 
   "devDependencies":
@@ -29,6 +43,13 @@
 
     "js-outlander":
       "StrangeTransistor/js-outlander#2.10.0",
+
+
+    "typescript":
+      "4",
+
+    "tsd":
+      "0.13",
 
 
     "mocha":

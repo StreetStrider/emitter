@@ -1,6 +1,4 @@
 
-
-
 module.exports = function Emitter ()
 {
 	var fns = null
@@ -52,5 +50,5 @@ module.exports = function Emitter ()
 		}
 	}
 
-	return { on, emit, }
+	return { on, emit }
 }

@@ -1,0 +1,21 @@
+{
+	"files":
+	[
+		"emitter.d.ts"
+	],
+	"compilerOptions":
+	{
+		"noEmit": true,
+		"pretty": true,
+
+		"strict": true,
+		"target": "ES5",
+		"lib":  [ "ES6", "dom" ],
+
+		"allowJs": true,
+		"checkJs": false,
+
+		"moduleResolution": "Node",
+		"allowSyntheticDefaultImports": true
+	}
+}
