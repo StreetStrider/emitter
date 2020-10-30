@@ -1,8 +1,11 @@
 {
+	"extends": "../tsconfig.json",
+
 	"files":
 	[
-		"emitter.d.ts"
+		"test.ts"
 	],
+
 	"compilerOptions":
 	{
 		"noEmit": true,

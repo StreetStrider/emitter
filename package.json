@@ -23,17 +23,12 @@
 
        "st": "eslint .",
 
-       "ts": "npm run tsc && npm run tsd",
+       "ts": "npm run tsc && npm run dts",
       "tsc": "tsc",
-      "tsd": "tsd",
+      "dts": "dtslint --expectOnly --localTs ./node_modules/typescript/lib test",
 
      "unit": "mocha test/test",
     "cover": "c8 -r text -r html npm run unit"
-  },
-
-  "tsd":
-  {
-    "directory": "test/"
   },
 
   "devDependencies":
@@ -48,8 +43,8 @@
     "typescript":
       "4",
 
-    "tsd":
-      "0.13",
+    "dtslint":
+      "4",
 
 
     "mocha":
