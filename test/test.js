@@ -82,6 +82,9 @@ describe('Emitter', () =>
 
 		expect(r1).eq(1)
 		expect(r2).eq(111)
+
+		ds2()
+		ds1()
 	})
 
 	it('allows dispose during emit', () =>
