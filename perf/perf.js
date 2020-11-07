@@ -29,6 +29,44 @@ function Suite (name, cases)
 
 Suite('emitter',
 [
+	add('zero', () =>
+	{
+		var n = 1
+
+		var emit = (m) => { n = (n * m) }
+
+		return () =>
+		{
+			emit(-1)
+		}
+	}),
+
+	add('emitter', () =>
+	{
+		var e = Emitter()
+
+		var n = 1
+		e.on(m => { n = (n * m) })
+
+		return () =>
+		{
+			e.emit(-1)
+		}
+	}),
+
+	add('nanoevents', () =>
+	{
+		var e = Nanoevents()
+
+		var n = 1
+		e.on('mul', m => { n = (n * m) })
+
+		return () =>
+		{
+			e.emit('mul', -1)
+		}
+	}),
+
 	add('emitter', () =>
 	{
 		var e = Emitter()
