@@ -27,7 +27,7 @@ function Suite (name, cases)
 	)
 }
 
-Suite('emitter',
+Suite('zero',
 [
 	add('zero', () =>
 	{
@@ -40,7 +40,11 @@ Suite('emitter',
 			emit(-1)
 		}
 	}),
+])
 
+
+Suite('emitter',
+[
 	add('emitter', () =>
 	{
 		var e = Emitter()
