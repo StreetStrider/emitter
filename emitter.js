@@ -5,13 +5,17 @@ module.exports = function Emitter ()
 
 	function on (fn)
 	{
-		if (fns)
+		if (! fns)
 		{
-			fns.push(fn)
+			fns = fn
+		}
+		else if (typeof fns === 'function')
+		{
+			fns = [ fns, fn ]
 		}
 		else
 		{
-			fns = [ fn ]
+			fns.push(fn)
 		}
 
 		return disposer(fn)
@@ -23,14 +27,22 @@ module.exports = function Emitter ()
 		{
 			if (! fn) { return }
 
-			if (fns.length > 1)
+			if (typeof fns === 'function')
+			{
+				if (fns === fn)
+				{
+					fns = null
+				}
+			}
+			else
 			{
 				var index = fns.indexOf(fn)
 				fns = fns.filter((_, fn_index) => (fn_index !== index))
-			}
-			else if (fns[0] === fn)
-			{
-				fns = null
+
+				if (fns.length === 1)
+				{
+					fns = fns[0]
+				}
 			}
 
 			fn = null
@@ -39,9 +51,11 @@ module.exports = function Emitter ()
 
 	function emit (...args)
 	{
-		if (! fns) { return }
-
-		for (var fn of fns)
+		if (typeof fns === 'function')
+		{
+			fns(...args)
+		}
+		else if (fns) for (var fn of fns)
 		{
 			fn(...args)
 		}
