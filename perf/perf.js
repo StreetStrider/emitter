@@ -43,7 +43,7 @@ Suite('zero',
 ])
 
 
-Suite('emitter',
+Suite('(1) single subscriber',
 [
 	add('emitter', () =>
 	{
@@ -70,12 +70,45 @@ Suite('emitter',
 			e.emit('mul', -1)
 		}
 	}),
+])
 
+Suite('(0) zero subscribers',
+[
+	add('emitter', () =>
+	{
+		var e = Emitter()
+
+		// var n = 1
+		// e.on(m => { n = (n * m) })
+
+		return () =>
+		{
+			e.emit(-1)
+		}
+	}),
+
+	add('nanoevents', () =>
+	{
+		var e = Nanoevents()
+
+		// var n = 1
+		// e.on('mul', m => { n = (n * m) })
+
+		return () =>
+		{
+			e.emit('mul', -1)
+		}
+	}),
+])
+
+Suite('(2) two subscribers',
+[
 	add('emitter', () =>
 	{
 		var e = Emitter()
 
 		var n = 1
+		e.on(m => { n = (n * m) })
 		e.on(m => { n = (n * m) })
 
 		return () =>
@@ -90,6 +123,42 @@ Suite('emitter',
 
 		var n = 1
 		e.on('mul', m => { n = (n * m) })
+		e.on('mul', m => { n = (n * m) })
+
+		return () =>
+		{
+			e.emit('mul', -1)
+		}
+	}),
+])
+
+Suite('(10) ten subscribers',
+[
+	add('emitter', () =>
+	{
+		var e = Emitter()
+
+		var n = 1
+		for (var t = 1; t <= 10; t++)
+		{
+			e.on(m => { n = (n * m) })
+		}
+
+		return () =>
+		{
+			e.emit(-1)
+		}
+	}),
+
+	add('nanoevents', () =>
+	{
+		var e = Nanoevents()
+
+		var n = 1
+		for (var t = 1; t <= 10; t++)
+		{
+			e.on('mul', m => { n = (n * m) })
+		}
 
 		return () =>
 		{
