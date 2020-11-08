@@ -55,9 +55,18 @@ module.exports = function Emitter ()
 		{
 			fns(...args)
 		}
-		else if (fns) for (var fn of fns)
+		else if (fns)
 		{
-			fn(...args)
+			var fnss = fns
+			var i = 0
+			var L = fnss.length
+
+			for (; (i < L); i++)
+			{
+				var fn = fnss[i]
+
+				fn(...args)
+			}
 		}
 	}
 
