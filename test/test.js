@@ -34,7 +34,7 @@ describe('Emitter', () =>
 		expect(r3).eq(0)
 	})
 
-	it('pass all args', () =>
+	it('passes all args', () =>
 	{
 		var e = Emitter()
 
