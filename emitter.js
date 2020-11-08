@@ -70,5 +70,12 @@ module.exports = function Emitter ()
 		}
 	}
 
-	return { on, emit }
+	function is_empty ()
+	{
+		if (! fns) { return true }
+		if (typeof fns === 'function') { return false }
+		return false
+	}
+
+	return { on, emit, is_empty }
 }

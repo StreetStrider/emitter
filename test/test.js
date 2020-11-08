@@ -144,4 +144,43 @@ describe('Emitter', () =>
 		e.emit(2)
 		expect(r).eq(6)
 	})
+
+	it('is_empty', () =>
+	{
+		var e = Emitter()
+
+		expect(e.is_empty()).true
+
+		var f = () => {}
+
+		var ds1 = e.on(f)
+		expect(e.is_empty()).false
+
+		var ds2 = e.on(f)
+		expect(e.is_empty()).false
+
+		var ds3 = e.on(f)
+		expect(e.is_empty()).false
+
+		ds2()
+		expect(e.is_empty()).false
+		ds2()
+		ds2()
+		expect(e.is_empty()).false
+
+		ds3()
+		expect(e.is_empty()).false
+		ds3()
+		ds3()
+		expect(e.is_empty()).false
+
+		ds1()
+		expect(e.is_empty()).true
+
+		ds1()
+		expect(e.is_empty()).true
+
+		ds1()
+		expect(e.is_empty()).true
+	})
 })
