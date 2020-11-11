@@ -226,3 +226,38 @@ Suite('(2 x 3) two subscribers, three arguments',
 		}
 	}),
 ])
+
+Suite('(10 x 5) ten subscribers, five arguments',
+[
+	add('emitter', () =>
+	{
+		var e = Emitter()
+
+		var n = 1
+		for (var t = 1; t <= 10; t++)
+		{
+			e.on((m1, m2, m3, m4, m5) => { n = (n * m1 * m2 * m3 * m4 * m5) })
+		}
+
+		return () =>
+		{
+			e.emit(-1, -1, -1, -1, -1)
+		}
+	}),
+
+	add('nanoevents', () =>
+	{
+		var e = Nanoevents()
+
+		var n = 1
+		for (var t = 1; t <= 10; t++)
+		{
+			e.on('mul', (m1, m2, m3, m4, m5) => { n = (n * m1 * m2 * m3 * m4 * m5) })
+		}
+
+		return () =>
+		{
+			e.emit('mul', -1, -1, -1, -1, -1)
+		}
+	}),
+])
