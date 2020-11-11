@@ -1,3 +1,4 @@
+/* eslint-disable max-params */
 
 import Emitter from '../'
 import { createNanoEvents as Nanoevents } from 'nanoevents'
