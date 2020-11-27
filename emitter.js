@@ -27,12 +27,9 @@ module.exports = function Emitter ()
 		{
 			if (! fn) { return }
 
-			if (typeof fns === 'function')
+			if (fns === fn)
 			{
-				if (fns === fn)
-				{
-					fns = null
-				}
+				fns = null
 			}
 			else
 			{
