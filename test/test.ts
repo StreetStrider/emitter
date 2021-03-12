@@ -37,3 +37,11 @@ var ds = e.on(() => {})
 
 ds()
 ds()
+
+if (e.is_empty())
+{
+	console.log('empty')
+}
+
+// $ExpectError
+console.log(e.is_empty() + 1)

@@ -7,8 +7,9 @@ export type Disposer = () => void
 
 export type Emitter<Args extends ArgsBase> =
 {
-	on(fn: Subscription<Args>): Disposer,
-	emit(...args: Args): void,
+	on (fn: Subscription<Args>): Disposer,
+	emit (...args: Args): void,
+	is_empty (): boolean,
 }
 
 export default function<Args extends ArgsBase> (): Emitter<Args>
