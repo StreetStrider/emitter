@@ -41,4 +41,4 @@ In case of:
 * Using multiple arguments slows emitter down, but it's still moderately faster (~5-15% faster) or on par with nanoevents.
 
 ## License
-ISC, © Strider, 2020.
+ISC, © Strider, 2021.
