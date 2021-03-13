@@ -1,5 +1,5 @@
 
-type ArgsBase = any[]
+export type ArgsBase = any[]
 
 export type Subscription<Args extends ArgsBase> = (...args: Args) => void
 

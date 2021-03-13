@@ -6,6 +6,8 @@ var Emitter = require('../')
 
 describe('Emitter', () =>
 {
+	/* see multi.test */
+
 	it('emits', () =>
 	{
 		var e = Emitter()
