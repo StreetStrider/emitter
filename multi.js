@@ -3,54 +3,52 @@ var Emitter = require('./emitter')
 
 module.exports = function MultiEmitter ()
 {
-	var channels = {}
+	var ems  = {}
+	var keys = 0
 
-	function on (eventname, fn)
+	function on (key, fn)
 	{
-		var emitter = channels[eventname]
+		var emitter = ems[key]
 
 		if (! emitter)
 		{
-			emitter = channels[eventname] = Emitter()
+			emitter = ems[key] = Emitter()
+			keys++
 		}
 
-		var ds = emitter.on(fn)
+		return disposer(key, emitter.on(fn))
+	}
 
+	function disposer (key, ds)
+	{
 		return () =>
 		{
 			if (! ds) { return }
-
 			ds()
-			ds = null
-			fn = null
 
+			var emitter = ems[key]
 			if (emitter.is_empty())
 			{
-				delete channels[eventname]
+				delete ems[key]
+				keys--
 			}
 
-			eventname = null
-			emitter = null
+			key = null
+			ds  = null
 		}
 	}
 
-	function emit (eventname, ...args)
+	function emit (key, ...args)
 	{
-		var emitter = channels[eventname]
-		if (emitter)
+		if (key in ems)
 		{
-			emitter.emit(...args)
+			ems[key].emit(...args)
 		}
 	}
 
 	function is_empty ()
 	{
-		for (var channel in channels)
-		{
-			if (! channels[channel].is_empty()) { return false }
-		}
-
-		return true
+		return (! keys)
 	}
 
 	return { on, emit, is_empty }
