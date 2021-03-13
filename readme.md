@@ -1,11 +1,13 @@
 # emitter
-> Single channel event emitter
+> single- and multi-channel event emitter
 
 ## Features
-* Single channel (no event names), minimal overhead.
+* Single-channel emitter — no event name, just a list of subscriptions.
+* Multi-channel emitter (like EventEmitter or nanoevents).
+* Minimal overhead.
 * Fast, optimized emit.
-* Provides disposer.
 * Minimal memory footprint, proper garbage collection.
+* Provides disposer.
 * Fully tested & 100% coverage.
 * TypeScript defs.
 * About 500 characters when minified.
@@ -25,11 +27,32 @@ disposer()
 emitter.is_empty() // → true
 ```
 
+```js
+import MultiEmitter from '@streetstrider/emitter/multi'
+
+const emitter = MultiEmitter()
+
+const ds1 = emitter.on('plus', (a, b) => console.log(a + b))
+const ds2 = emitter.on('mul',  (a, b) => console.log(a * b))
+
+emitter.emit('plus', 1, 2)
+emitter.emit('mul', 3, 4)
+
+ds1()
+ds2()
+
+emitter.is_empty() // → true
+```
+
 ## Tests / Coverage
 Fully tested with Mocha, 100% coverage.
 
 ## Types
 Built-in TypeScript type definitions.
+```typescript
+const emitter = Emitter<[number, number]>()
+const emitter = MultiEmitter<{ plus: [number, number] }>()
+```
 
 ## Performance
 This library is benchmarked in comparison to nanoevents. The main target for optimizations is `emitter.emit()`.
