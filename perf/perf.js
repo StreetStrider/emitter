@@ -1,6 +1,7 @@
 /* eslint-disable max-params */
 
 import Emitter from '../'
+import MultiEmitter from '../multi'
 import { createNanoEvents as Nanoevents } from 'nanoevents'
 
 import { add } from 'benny'
@@ -59,6 +60,19 @@ Suite('(1) single subscriber',
 		}
 	}),
 
+	add('multi', () =>
+	{
+		var e = MultiEmitter()
+
+		var n = 1
+		e.on('a', m => { n = (n * m) })
+
+		return () =>
+		{
+			e.emit('a', -1)
+		}
+	}),
+
 	add('nanoevents', () =>
 	{
 		var e = Nanoevents()
@@ -85,6 +99,19 @@ Suite('(0) zero subscribers',
 		return () =>
 		{
 			e.emit(-1)
+		}
+	}),
+
+	add('multi', () =>
+	{
+		var e = MultiEmitter()
+
+		// var n = 1
+		// e.on('a', m => { n = (n * m) })
+
+		return () =>
+		{
+			e.emit('a', -1)
 		}
 	}),
 
@@ -115,6 +142,20 @@ Suite('(2) two subscribers',
 		return () =>
 		{
 			e.emit(-1)
+		}
+	}),
+
+	add('multi', () =>
+	{
+		var e = MultiEmitter()
+
+		var n = 1
+		e.on('a', m => { n = (n * m) })
+		e.on('a', m => { n = (n * m) })
+
+		return () =>
+		{
+			e.emit('a', -1)
 		}
 	}),
 
@@ -151,6 +192,22 @@ Suite('(10) ten subscribers',
 		}
 	}),
 
+	add('multi', () =>
+	{
+		var e = MultiEmitter()
+
+		var n = 1
+		for (var t = 1; t <= 10; t++)
+		{
+			e.on('a', m => { n = (n * m) })
+		}
+
+		return () =>
+		{
+			e.emit('a', -1)
+		}
+	}),
+
 	add('nanoevents', () =>
 	{
 		var e = Nanoevents()
@@ -180,6 +237,19 @@ Suite('(1 x 3) single subscriber, three arguments',
 		return () =>
 		{
 			e.emit(-1, -1, -1)
+		}
+	}),
+
+	add('multi', () =>
+	{
+		var e = MultiEmitter()
+
+		var n = 1
+		e.on('a', (m1, m2, m3) => { n = (n * m1 * m2 * m3) })
+
+		return () =>
+		{
+			e.emit('a', -1, -1, -1)
 		}
 	}),
 
@@ -213,6 +283,20 @@ Suite('(2 x 3) two subscribers, three arguments',
 		}
 	}),
 
+	add('multi', () =>
+	{
+		var e = MultiEmitter()
+
+		var n = 1
+		e.on('a', (m1, m2, m3) => { n = (n * m1 * m2 * m3) })
+		e.on('a', (m1, m2, m3) => { n = (n * m1 * m2 * m3) })
+
+		return () =>
+		{
+			e.emit('a', -1, -1, -1)
+		}
+	}),
+
 	add('nanoevents', () =>
 	{
 		var e = Nanoevents()
@@ -243,6 +327,22 @@ Suite('(10 x 5) ten subscribers, five arguments',
 		return () =>
 		{
 			e.emit(-1, -1, -1, -1, -1)
+		}
+	}),
+
+	add('multi', () =>
+	{
+		var e = MultiEmitter()
+
+		var n = 1
+		for (var t = 1; t <= 10; t++)
+		{
+			e.on('a', (m1, m2, m3, m4, m5) => { n = (n * m1 * m2 * m3 * m4 * m5) })
+		}
+
+		return () =>
+		{
+			e.emit('a', -1, -1, -1, -1, -1)
 		}
 	}),
 
