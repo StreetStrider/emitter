@@ -1,13 +1,13 @@
 /* eslint-disable max-params */
 
-import Emitter from '../'
-import MultiEmitter from '../multi'
-import { createNanoEvents as Nanoevents } from 'nanoevents'
+var Emitter = require('../')
+var MultiEmitter = require('../multi')
+var Nanoevents = require('nanoevents').createNanoEvents
 
-import { add } from 'benny'
-import { suite } from 'benny'
-import { cycle, complete } from 'benny'
-// import { save } from 'benny'
+var { add } = require('benny')
+var { suite } = require('benny')
+var { cycle, complete } = require('benny')
+// var { save } = require('benny')
 
 function Suite (name, cases)
 {
