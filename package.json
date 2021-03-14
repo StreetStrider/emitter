@@ -33,7 +33,8 @@
      "unit": "mocha --check-leaks test/*.test.js",
     "cover": "c8 -r text -r html npm run unit",
 
-     "perf": "node -r esm perf/perf"
+     "perf": "node -r esm perf/perf",
+     "leak": "node --inspect-brk test/leak"
   },
 
   "devDependencies":
