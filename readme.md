@@ -44,9 +44,6 @@ ds2()
 emitter.is_empty() // → true
 ```
 
-## Tests / Coverage
-Fully tested with Mocha, 100% coverage.
-
 ## Types
 Built-in TypeScript type definitions.
 ```typescript
@@ -57,11 +54,11 @@ const emitter = MultiEmitter<{ plus: [number, number] }>()
 ## Performance
 This library is benchmarked in comparison to nanoevents. The main target for optimizations is `emitter.emit()`.
 In case of:
-* 1 sub — 35% faster than nanoevents.
+* 1 sub — 25% faster than nanoevents.
 * 2 subs — 20% faster.
-* 10 subs — on par (~5% faster).
-* 0 subs — 45% faster.
-* Using multiple arguments slows emitter down, but it's still moderately faster (~5-15% faster) or on par with nanoevents.
+* 10 subs — on par.
+* 0 subs — 50% faster.
+* Using multiple arguments slows emitter down, but it's still moderately faster (~5-20% faster) or on par with nanoevents.
 
 ## License
 ISC, © Strider, 2021.
