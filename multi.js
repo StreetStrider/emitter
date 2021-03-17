@@ -1,9 +1,15 @@
 
 var Emitter = require('./emitter')
 
+var empty = {}
+for (var key of Object.getOwnPropertyNames(Object.prototype))
+{
+	empty[key] = null
+}
+
 module.exports = function MultiEmitter ()
 {
-	var ems  = {}
+	var ems  = { ...empty }
 	var keys = 0
 
 	function on (key, fn)
@@ -40,9 +46,10 @@ module.exports = function MultiEmitter ()
 
 	function emit (key, ...args)
 	{
-		if (key in ems)
+		var emitter = ems[key]
+		if (emitter)
 		{
-			ems[key].emit(...args)
+			emitter.emit(...args)
 		}
 	}
 

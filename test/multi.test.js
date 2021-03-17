@@ -232,4 +232,22 @@ describe('MultiEmitter', () =>
 		ds1()
 		expect(e.is_empty()).true
 	})
+
+	it('doesnt collide with prototypes', () =>
+	{
+		var e = MultiEmitter()
+
+		e.emit('a', 1)
+		e.emit('toString', 2)
+		e.emit('valueOf', 3)
+
+		var r = 0
+		e.on('valueOf', (x) => { r = (r + x) })
+
+		e.emit('a', 1)
+		e.emit('toString', 2)
+		e.emit('valueOf', 3)
+
+		expect(r).eq(3)
+	})
 })
