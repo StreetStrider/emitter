@@ -1,24 +1,24 @@
 
 var Emitter = require('./emitter')
 
-var empty = {}
-for (var key of Object.getOwnPropertyNames(Object.prototype))
-{
-	empty[key] = null
-}
+var yes = Symbol('yes')
 
 module.exports = function MultiEmitter ()
 {
-	var ems  = { ...empty }
+	var ems = {}
+	var ems_yes = {}
 	var keys = 0
 
 	function on (key, fn)
 	{
-		var emitter = ems[key]
-
-		if (! emitter)
+		if (ems_yes[key] === yes)
 		{
-			emitter = ems[key] = Emitter()
+			var emitter = ems[key]
+		}
+		else
+		{
+			var emitter = ems[key] = Emitter()
+			ems_yes[key] = yes
 			keys++
 		}
 
@@ -36,6 +36,7 @@ module.exports = function MultiEmitter ()
 			if (emitter.is_empty())
 			{
 				delete ems[key]
+				delete ems_yes[key]
 				keys--
 			}
 
@@ -46,10 +47,9 @@ module.exports = function MultiEmitter ()
 
 	function emit (key, ...args)
 	{
-		var emitter = ems[key]
-		if (emitter)
+		if (ems_yes[key] === yes)
 		{
-			emitter.emit(...args)
+			ems[key].emit(...args)
 		}
 	}
 
