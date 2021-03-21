@@ -10,7 +10,7 @@
 * Provides disposer.
 * Fully tested & 100% coverage.
 * TypeScript defs.
-* About 500 characters when minified.
+* Emitter is 500 characters when minified (882 for Multi).
 
 ## API / Example
 ```js
