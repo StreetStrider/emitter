@@ -1,4 +1,7 @@
 # emitter
+
+[![npm|@streetstrider/emitter](http://img.shields.io/badge/npm-@streetstrider/emitter-CB3837.svg?style=flat-square)](https://www.npmjs.org/package/@streetstrider/emitter)
+
 > single- and multi-channel event emitter
 
 ## Features
