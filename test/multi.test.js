@@ -2,6 +2,7 @@
 var { expect } = require('chai')
 
 var MultiEmitter = require('../multi')
+var once = require('../once').multi
 
 
 describe('MultiEmitter', () =>
@@ -249,5 +250,54 @@ describe('MultiEmitter', () =>
 		e.emit('valueOf', 3)
 
 		expect(r).eq(3)
+	})
+
+	it('once', () =>
+	{
+		var e = MultiEmitter()
+
+		var r1 = 0
+		var r2 = 0
+		var r3 = 0
+		var r4 = 0
+
+		once(e, 'a', (x) => { r1 = (r1 + x) })
+		once(e, 'a', (x) => { r2 = (r2 + x) })
+		var ds3 = once(e, 'b', (y) => { r3 = (r3 + y) })
+		var ds4 = once(e, 'b', (y) => { r4 = (r4 + y) })
+
+		expect(r1).eq(0)
+		expect(r2).eq(0)
+		expect(r3).eq(0)
+		expect(r4).eq(0)
+
+		ds3()
+
+		e.emit('a', 1)
+
+		expect(r1).eq(1)
+		expect(r2).eq(1)
+		expect(r3).eq(0)
+		expect(r4).eq(0)
+
+		e.emit('a', 10)
+		e.emit('b', 20)
+		e.emit('c', 30)
+
+		expect(r1).eq(1)
+		expect(r2).eq(1)
+		expect(r3).eq(0)
+		expect(r4).eq(20)
+
+		ds4()
+
+		e.emit('a', 100)
+		e.emit('b', 200)
+		e.emit('c', 300)
+
+		expect(r1).eq(1)
+		expect(r2).eq(1)
+		expect(r3).eq(0)
+		expect(r4).eq(20)
 	})
 })

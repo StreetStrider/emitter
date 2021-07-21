@@ -2,6 +2,7 @@
 var { expect } = require('chai')
 
 var Emitter = require('../')
+var once = require('../once')
 
 
 describe('Emitter', () =>
@@ -184,5 +185,38 @@ describe('Emitter', () =>
 
 		ds1()
 		expect(e.is_empty()).true
+	})
+
+	it('once', () =>
+	{
+		var e = Emitter()
+
+		var r1 = 0
+		var r2 = 0
+		var r3 = 0
+
+		once(e, (x) => { r1 = (r1 + x) })
+		var ds2 = once(e, (x) => { r2 = (r2 + x) })
+		var ds3 = once(e, (x) => { r3 = (r3 + x) })
+
+		expect(r1).eq(0)
+		expect(r2).eq(0)
+		expect(r3).eq(0)
+
+		ds2()
+
+		e.emit(1)
+
+		expect(r1).eq(1)
+		expect(r2).eq(0)
+		expect(r3).eq(1)
+
+		ds3()
+
+		e.emit(10)
+
+		expect(r1).eq(1)
+		expect(r2).eq(0)
+		expect(r3).eq(1)
 	})
 })
