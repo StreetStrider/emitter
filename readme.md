@@ -13,15 +13,18 @@
 * Provides disposer.
 * Fully tested & 100% coverage.
 * TypeScript defs.
+* utility: once.
 * Emitter is 500 characters when minified (882 for Multi).
 
 ## API / Example
 ```js
 import Emitter from '@streetstrider/emitter'
+import once from '@streetstrider/emitter/once'
 
 const emitter = Emitter()
 
 const disposer = emitter.on((a, b) => console.log(a + b))
+const disposer = once(emitter, (a, b) => console.log(a + b))
 
 emitter.emit(1, 2)
 
@@ -32,11 +35,16 @@ emitter.is_empty() // → true
 
 ```js
 import MultiEmitter from '@streetstrider/emitter/multi'
+import { multi as once_multi } from '../once'
+
 
 const emitter = MultiEmitter()
 
 const ds1 = emitter.on('plus', (a, b) => console.log(a + b))
 const ds2 = emitter.on('mul',  (a, b) => console.log(a * b))
+
+const ds3 = once(emitter, 'plus', (a, b) => console.log(a + b))
+const ds4 = once(emitter, 'mul',  (a, b) => console.log(a * b))
 
 emitter.emit('plus', 1, 2)
 emitter.emit('mul', 3, 4)
@@ -62,6 +70,33 @@ In case of:
 * 10 subs — on par.
 * 0 subs — 50% faster.
 * Using multiple arguments slows emitter down, but it's still moderately faster (~5-20% faster) or on par with nanoevents.
+
+## Some design solutions
+### Why is `once` not in the core?
+Because `once` is not part of the minimal API. Making it a public method on emitters would also make it non-tree-shakeable and the only gain would be consistent syntax with `on`. If you still want this, you can patch your emitters by binding/partialing `once` (bring your own). You can also curry `once`.
+
+```js
+import once from '@streetstrider/emitter/once'
+
+const emitter = Emitter()
+
+emitter.once = once.bind(null, emitter)
+emitter.once = partial(once, emitter)
+
+const disposer = emitter.once((a, b) => console.log(a + b))
+```
+
+```js
+import { multi as once_multi } from '@streetstrider/emitter/once'
+
+const emitter = MultiEmitter()
+
+emitter.once = once.bind(null, emitter)
+emitter.once = partial(once, emitter)
+
+const disposer = emitter.once('plus', (a, b) => console.log(a + b))
+```
+
 
 ## License
 ISC, © Strider, 2021.
