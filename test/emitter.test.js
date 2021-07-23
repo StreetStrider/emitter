@@ -3,6 +3,7 @@ var { expect } = require('chai')
 
 var Emitter = require('../')
 var once = require('../once')
+var when = require('../when')
 
 
 describe('Emitter', () =>
@@ -218,5 +219,41 @@ describe('Emitter', () =>
 		expect(r1).eq(1)
 		expect(r2).eq(0)
 		expect(r3).eq(1)
+	})
+
+	it('when', async () =>
+	{
+		var e1 = Emitter()
+		var e2 = Emitter()
+
+		var
+		p1 = when(e1)
+		p1 = Promise.race([ p1, timeout() ])
+
+		var
+		p2 = when(e2)
+		p2 = Promise.race([ p2, timeout() ])
+
+		e1.emit('E1')
+		e1.emit('E10')
+		/* e2.emit('E2') */
+		/* e2.emit('E20') */
+		await p1.then(x => expect(x).eq('E1'), () => expect.fail('must not throw'))
+		await p2.then(() => expect.fail('must throw'), e => expect(e instanceof TypeError))
+
+		var
+		p1 = when(e1)
+		p1 = Promise.race([ p1, timeout() ])
+
+		e1.emit('E100')
+		await p1.then(x => expect(x).eq('E100'), () => expect.fail('must not throw'))
+
+		function timeout ()
+		{
+			return new Promise((_, rj) =>
+			{
+				setTimeout(() => rj(new TypeError), 25)
+			})
+		}
 	})
 })

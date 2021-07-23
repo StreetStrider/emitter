@@ -2,8 +2,11 @@
 import { Emitter } from '../'
 import { Disposer } from '../'
 
+/* *** */
+/* Emitter */
 import E from '../'
 import once from '../once'
+import when from '../when'
 
 var e = E<[string, number]>()
 
@@ -25,6 +28,17 @@ once(e, (s, n) =>
 	n // $ExpectType number
 })
 
+async function wait ()
+{
+	var r = await when(e)
+	r // $ExpectType string
+
+	var e_void = E<[]>()
+
+	var r_void = await when(e_void)
+	r_void // $ExpectType undefined
+}
+
 // $ExpectError
 e.on((a: number, b: number) => console.log(a + b))
 // $ExpectError
@@ -42,6 +56,27 @@ once(e)
 once(true)
 // $ExpectError
 once()
+
+async function wait_error ()
+{
+// $ExpectError
+	await when(e, (a: number, b: number) => console.log(a + b))
+
+// $ExpectError
+	await when((a: number, b: number) => console.log(a + b))
+
+// $ExpectError
+	await when(null, (a: number, b: number) => console.log(a + b))
+
+// $ExpectError
+	await when(null)
+
+// $ExpectError
+	await when(true)
+
+// $ExpectError
+	await when()
+}
 
 e.emit('a', 5)
 
@@ -67,9 +102,12 @@ if (e.is_empty())
 console.log(e.is_empty() + 1)
 
 
+/* *** */
+/* MultiEmitter */
 import { MultiEmitter } from '../multi'
 import M from '../multi'
 import { multi as once_multi } from '../once'
+import { multi as when_multi } from '../when'
 
 var m = M<{ a: [string, number], b: [boolean] }>()
 
@@ -96,6 +134,20 @@ once_multi(m, 'b', (b) =>
 	b // $ExpectType boolean
 })
 
+async function wait_multi ()
+{
+	var s = await when_multi(m, 'a')
+	s // $ExpectType string
+
+	var b = await when_multi(m, 'b')
+	b // $ExpectType boolean
+
+	var m_void = M<{ a: [] }>()
+
+	var r_void = await when_multi(m_void, 'a')
+	r_void // $ExpectType undefined
+}
+
 // $ExpectError
 m.on('b', (n: number) => {})
 
@@ -121,6 +173,33 @@ once_multi(m)
 once_multi(true)
 // $ExpectError
 once_multi()
+
+async function wait_error_multi ()
+{
+// $ExpectError
+	await when_multi(m, 'a', (a: number, b: number) => console.log(a + b))
+
+// $ExpectError
+	await when_multi('a', (a: number, b: number) => console.log(a + b))
+
+// $ExpectError
+	await when_multi((a: number, b: number) => console.log(a + b))
+
+// $ExpectError
+	await when_multi(null, 'a', (a: number, b: number) => console.log(a + b))
+
+// $ExpectError
+	await when_multi(null)
+
+// $ExpectError
+	await when_multi(true)
+
+// $ExpectError
+	await when_multi()
+
+// $ExpectError
+	await when_multi(m, 'c')
+}
 
 
 /* cross-once: */

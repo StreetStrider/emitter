@@ -13,7 +13,9 @@
 * Provides disposer.
 * Fully tested & 100% coverage.
 * TypeScript defs.
+* TypeScript defs are fully tested.
 * utility: once.
+* utility: when.
 * Emitter is 500 characters when minified (882 for Multi).
 
 ## API / Example
@@ -37,7 +39,6 @@ emitter.is_empty() // → true
 import MultiEmitter from '@streetstrider/emitter/multi'
 import { multi as once_multi } from '../once'
 
-
 const emitter = MultiEmitter()
 
 const ds1 = emitter.on('plus', (a, b) => console.log(a + b))
@@ -53,6 +54,22 @@ ds1()
 ds2()
 
 emitter.is_empty() // → true
+```
+
+```js
+import Emitter from '@streetstrider/emitter'
+import when from '@streetstrider/emitter/when'
+
+const emitter = Emitter()
+
+async function do_async () {
+  const next_one = await when(emitter) /* would capture first emission */
+}
+
+emitter.emit('next_one')
+emitter.emit('next_two')
+emitter.emit('next_three')
+
 ```
 
 ## Types
@@ -72,8 +89,8 @@ In case of:
 * Using multiple arguments slows emitter down, but it's still moderately faster (~5-20% faster) or on par with nanoevents.
 
 ## Some design solutions
-### Why is `once` not in the core?
-Because `once` is not part of the minimal API. Making it a public method on emitters would also make it non-tree-shakeable and the only gain would be consistent syntax with `on`. If you still want this, you can patch your emitters by binding/partialing `once` (bring your own). You can also curry `once`.
+### Why are `once` and `when` not in the core?
+Because they are not part of the minimal API. Making them public methods on emitter would also make them non-tree-shakeable and the only gain would be consistent syntax with `on` (via dot). If you still want this, you can patch your emitters by binding/partialing (bring your own) `once` and/or `when`. You can also attach them by currying them.
 
 ```js
 import once from '@streetstrider/emitter/once'
