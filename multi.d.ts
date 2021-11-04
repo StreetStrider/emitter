@@ -7,7 +7,7 @@ import { Disposer } from './emitter'
 
 type HandlersBase =
 {
-	[key: string]: ArgsBase | never,
+	[key: string]: ArgsBase,
 }
 
 export type MultiEmitter<Handlers extends HandlersBase> =
