@@ -1,21 +1,28 @@
 
 module.exports = function Emitter ()
 {
-	var fns = null
+	var f_one = false
+	var f_ext = false
+
+	var fn1 = null
+	var fns = []
 
 	function on (fn)
 	{
-		if (! fns)
+		if (f_ext)
 		{
-			fns = fn
+			fns.push(fn)
 		}
-		else if (typeof fns === 'function')
+		else if (f_one)
 		{
-			fns = [ fns, fn ]
+			fns.push(fn1, fn)
+			f_ext = true
+			f_one = false
 		}
 		else
 		{
-			fns.push(fn)
+			fn1 = fn
+			f_one = true
 		}
 
 		return disposer(fn)
@@ -27,18 +34,24 @@ module.exports = function Emitter ()
 		{
 			if (! fn) { return }
 
-			if (fns === fn)
-			{
-				fns = null
-			}
-			else
+			if (f_ext)
 			{
 				var index = fns.indexOf(fn)
 				fns = fns.filter((_, fn_index) => (fn_index !== index))
 
 				if (fns.length === 1)
 				{
-					fns = fns[0]
+					fn1 = fns.pop()
+					f_ext = false
+					f_one = true
+				}
+			}
+			else if (f_one)
+			{
+				if (fn1 === fn)
+				{
+					fn1 = null
+					f_one = false
 				}
 			}
 
@@ -48,11 +61,11 @@ module.exports = function Emitter ()
 
 	function emit (...args)
 	{
-		if (typeof fns === 'function')
+		if (f_one)
 		{
-			fns(...args)
+			fn1(...args)
 		}
-		else if (fns)
+		else if (f_ext)
 		{
 			var fnss = fns
 			var i = 0
@@ -69,7 +82,7 @@ module.exports = function Emitter ()
 
 	function is_empty ()
 	{
-		return (! fns)
+		return (! (f_ext || f_one))
 	}
 
 	return { on, emit, is_empty }
