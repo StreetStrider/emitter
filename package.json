@@ -39,7 +39,7 @@
      "unit": "mocha --check-leaks test/*.test.js",
     "cover": "c8 -r text -r html npm run unit",
 
-     "perf": "node perf/perf",
+     "perf": "node -r esm-wallaby perf/perf",
      "leak": "node --inspect-brk test/leak"
   },
 
@@ -71,10 +71,13 @@
 
 
     "benny":
-      "3.6",
+      "3.7",
 
+
+    "esm-wallaby":
+      "3",
 
     "nanoevents":
-      "5"
+      "7"
   }
 }

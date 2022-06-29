@@ -13,7 +13,7 @@
 
 		"strict": true,
 		"target": "ES5",
-		"lib":  [ "ES6" ],
+		"lib":  [ "ES6", "dom" ],
 
 		"allowJs": true,
 		"checkJs": false,

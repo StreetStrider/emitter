@@ -2,7 +2,7 @@
 
 var Emitter = require('../')
 var MultiEmitter = require('../multi')
-var Nanoevents = require('nanoevents').createNanoEvents
+import { createNanoEvents as Nanoevents } from 'nanoevents'
 
 var { add } = require('benny')
 var { suite } = require('benny')
