@@ -16,7 +16,7 @@
 * TypeScript defs are fully tested.
 * utility: once.
 * utility: when.
-* Emitter is 500 characters when minified (882 for Multi).
+* Emitter is 557 characters when minified (952 for Multi).
 
 ## API / Example
 ```js
@@ -44,8 +44,8 @@ const emitter = MultiEmitter()
 const ds1 = emitter.on('plus', (a, b) => console.log(a + b))
 const ds2 = emitter.on('mul',  (a, b) => console.log(a * b))
 
-const ds3 = once(emitter, 'plus', (a, b) => console.log(a + b))
-const ds4 = once(emitter, 'mul',  (a, b) => console.log(a * b))
+const ds3 = once_multi(emitter, 'plus', (a, b) => console.log(a + b))
+const ds4 = once_multi(emitter, 'mul',  (a, b) => console.log(a * b))
 
 emitter.emit('plus', 1, 2)
 emitter.emit('mul', 3, 4)
@@ -79,15 +79,6 @@ const emitter = Emitter<[number, number]>()
 const emitter = MultiEmitter<{ plus: [number, number] }>()
 ```
 
-## Performance
-This library is benchmarked in comparison to nanoevents. The main target for optimizations is `emitter.emit()`.
-In case of:
-* 1 sub — 25% faster than nanoevents.
-* 2 subs — 20% faster.
-* 10 subs — on par.
-* 0 subs — 50% faster.
-* Using multiple arguments slows emitter down, but it's still moderately faster (~5-20% faster) or on par with nanoevents.
-
 ## Some design solutions
 ### Why are `once` and `when` not in the core?
 Because they are not part of the minimal API. Making them public methods on emitter would also make them non-tree-shakeable and the only gain would be consistent syntax with `on` (via dot). If you still want this, you can patch your emitters by binding/partialing (bring your own) `once` and/or `when`. You can also attach them by currying them.
@@ -108,12 +99,11 @@ import { multi as once_multi } from '@streetstrider/emitter/once'
 
 const emitter = MultiEmitter()
 
-emitter.once = once.bind(null, emitter)
-emitter.once = partial(once, emitter)
+emitter.once = once_multi.bind(null, emitter)
+emitter.once = partial(once_multi, emitter)
 
 const disposer = emitter.once('plus', (a, b) => console.log(a + b))
 ```
 
-
 ## License
-ISC, © Strider, 2021.
+ISC, © Strider, 2022.

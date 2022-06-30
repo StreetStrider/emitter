@@ -1,0 +1,10 @@
+#! /bin/sh
+
+to=perf/min_${1}
+
+esbuild \
+  --bundle \
+  --minify \
+  ${1} > ${to}
+
+wc -c ${to}

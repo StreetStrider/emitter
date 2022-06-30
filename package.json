@@ -40,7 +40,9 @@
     "cover": "c8 -r text -r html npm run unit",
 
      "perf": "node -r esm-wallaby perf/perf",
-     "leak": "node --inspect-brk test/leak"
+     "leak": "node --inspect-brk test/leak",
+
+     "mini": "perf/mini emitter.js && perf/mini multi.js"
   },
 
   "devDependencies":
@@ -70,9 +72,12 @@
       "7",
 
 
+    "esbuild":
+      "0.14",
+
+
     "benny":
       "3.7",
-
 
     "esm-wallaby":
       "3",
