@@ -1,6 +1,7 @@
 
 module.exports = function Emitter ()
 {
+	var j = 0
 	var f_one = false
 	var f_ext = 0
 
@@ -17,7 +18,9 @@ module.exports = function Emitter ()
 		else if (f_one)
 		{
 			fns = [ fn1, fn ]
+
 			f_ext = 2
+			j = 2
 
 			fn1 = null
 			f_one = false
@@ -26,6 +29,7 @@ module.exports = function Emitter ()
 		{
 			fn1 = fn
 			f_one = true
+			j = 1
 		}
 
 		return disposer(fn)
@@ -50,6 +54,7 @@ module.exports = function Emitter ()
 					{
 						fn1 = fns[0]
 						f_one = true
+						j = 1
 
 						fns = null
 						f_ext = 0
@@ -62,6 +67,7 @@ module.exports = function Emitter ()
 				{
 					fn1 = null
 					f_one = false
+					j = 0
 				}
 			}
 
@@ -72,12 +78,14 @@ module.exports = function Emitter ()
 
 	function emit (...args)
 	{
-		if (f_one)
+		switch (j)
 		{
+		case 1:
 			fn1(...args)
-		}
-		else // if (f_ext)
-		{
+			return
+		case 0:
+			return
+		default:
 			var fnss = fns
 			var L = f_ext
 
@@ -92,7 +100,7 @@ module.exports = function Emitter ()
 
 	function is_empty ()
 	{
-		return (! (f_ext || f_one))
+		return (! j)
 	}
 
 	return { on, emit, is_empty }
