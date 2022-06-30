@@ -2,21 +2,24 @@
 module.exports = function Emitter ()
 {
 	var f_one = false
-	var f_ext = false
+	var f_ext = 0
 
 	var fn1 = null
-	var fns = []
+	var fns = null
 
 	function on (fn)
 	{
 		if (f_ext)
 		{
-			fns.push(fn)
+			fns = [].concat(fns, fn)
+			f_ext++
 		}
 		else if (f_one)
 		{
-			fns.push(fn1, fn)
-			f_ext = true
+			fns = [ fn1, fn ]
+			f_ext = 2
+
+			fn1 = null
 			f_one = false
 		}
 		else
@@ -28,6 +31,7 @@ module.exports = function Emitter ()
 		return disposer(fn)
 	}
 
+	/* eslint-disable complexity */
 	function disposer (fn)
 	{
 		return () =>
@@ -37,13 +41,19 @@ module.exports = function Emitter ()
 			if (f_ext)
 			{
 				var index = fns.indexOf(fn)
-				fns = fns.filter((_, fn_index) => (fn_index !== index))
-
-				if (fns.length === 1)
+				if (index !== -1)
 				{
-					fn1 = fns.pop()
-					f_ext = false
-					f_one = true
+					fns = fns.filter((_, fn_index) => (fn_index !== index))
+					f_ext--
+
+					if (f_ext === 1)
+					{
+						fn1 = fns[0]
+						f_one = true
+
+						fns = null
+						f_ext = 0
+					}
 				}
 			}
 			else if (f_one)
@@ -58,6 +68,7 @@ module.exports = function Emitter ()
 			fn = null
 		}
 	}
+	/* eslint-enable complexity */
 
 	function emit (...args)
 	{
@@ -65,13 +76,12 @@ module.exports = function Emitter ()
 		{
 			fn1(...args)
 		}
-		else if (f_ext)
+		else // if (f_ext)
 		{
 			var fnss = fns
-			var i = 0
-			var L = fnss.length
+			var L = f_ext
 
-			for (; (i < L); i++)
+			for (var i = 0; (i < L); i++)
 			{
 				var fn = fnss[i]
 
