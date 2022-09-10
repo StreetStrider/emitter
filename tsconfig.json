@@ -1,7 +1,10 @@
 {
 	"files":
 	[
-		"emitter.d.ts"
+		"emitter.d.ts",
+		"multi.d.ts",
+		"once.d.ts",
+		"when.d.ts"
 	],
 	"compilerOptions":
 	{
@@ -10,8 +13,6 @@
 
 		"strict": true,
 		"target": "ES6",
-		"lib":  [ "ES6" ],
-
-		"moduleResolution": "Node"
+		"lib":  [ "ES6" ]
 	}
 }

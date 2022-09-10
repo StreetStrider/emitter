@@ -12,13 +12,9 @@
 		"pretty": true,
 
 		"strict": true,
-		"target": "ES5",
+		"target": "ES6",
 		"lib":  [ "ES6", "dom" ],
 
-		"allowJs": true,
-		"checkJs": false,
-
-		"moduleResolution": "Node",
-		"allowSyntheticDefaultImports": true
+		"moduleResolution": "Node"
 	}
 }
