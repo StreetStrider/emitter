@@ -1,3 +1,7 @@
+## `1.2.1` — 2022-09-10
+* squeeze some perf.
+* types fixes.
+
 ## `1.2.0` — 2021-07-25
 * once.
 * when.
