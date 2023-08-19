@@ -1,4 +1,7 @@
 
+declare namespace Emitter
+{
+
 export type ArgsBase = any[]
 
 export type Subscription<Args extends ArgsBase> = (...args: Args) => void
@@ -12,4 +15,8 @@ export type Emitter<Args extends ArgsBase> =
 	is_empty (): boolean,
 }
 
-export default function<Args extends ArgsBase> (): Emitter<Args>
+}
+
+declare function Emitter <Args extends Emitter.ArgsBase> (): Emitter.Emitter<Args>
+
+export = Emitter

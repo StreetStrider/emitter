@@ -37,7 +37,7 @@ emitter.is_empty() // → true
 
 ```js
 import MultiEmitter from '@streetstrider/emitter/multi'
-import { multi as once_multi } from '../once'
+import { multi as once_multi } from '@streetstrider/emitter/once'
 
 const emitter = MultiEmitter()
 
@@ -106,4 +106,4 @@ const disposer = emitter.once('plus', (a, b) => console.log(a + b))
 ```
 
 ## License
-ISC, © Strider, 2022.
+ISC, © Strider, 2023.

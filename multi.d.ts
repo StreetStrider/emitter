@@ -1,9 +1,12 @@
 
-import { ArgsBase } from './emitter'
-import { Subscription } from './emitter'
-import { Disposer } from './emitter'
+import type { ArgsBase } from './emitter.js'
+import type { Subscription } from './emitter.js'
+import type { Disposer } from './emitter.js'
 
-// export type Key = (string | symbol)
+/* export type Key = (string | symbol) */
+
+declare namespace MultiEmitter
+{
 
 type HandlersBase =
 {
@@ -17,4 +20,8 @@ export type MultiEmitter<Handlers extends HandlersBase> =
 	is_empty (): boolean,
 }
 
-export default function<Handlers extends HandlersBase> (): MultiEmitter<Handlers>
+}
+
+declare function MultiEmitter <Handlers extends MultiEmitter.HandlersBase> (): MultiEmitter.MultiEmitter<Handlers>
+
+export = MultiEmitter

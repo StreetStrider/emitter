@@ -1,3 +1,7 @@
+## `1.3.0` — 2023-08-18
+* provide export map.
+* fix cjs typedefs.
+
 ## `1.2.1` — 2022-09-10
 * squeeze some perf.
 * types fixes.
