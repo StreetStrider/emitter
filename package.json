@@ -61,14 +61,14 @@
       "8",
 
     "js-outlander":
-      "StrangeTransistor/js-outlander#2.11.0",
+      "StrangeTransistor/outlander#2.11.0",
 
 
     "typescript":
-      "5.1.6",
+      "5.6.2",
 
     "dtslint":
-      "4",
+      "4.2.1",
 
 
     "mocha":
@@ -94,5 +94,13 @@
 
     "nanoevents":
       "7"
+  },
+
+  "pnpm":
+  {
+    "overrides":
+    {
+      "@definitelytyped/utils": "0.1.4"
+    }
   }
 }
