@@ -58,10 +58,10 @@
   "devDependencies":
   {
     "eslint":
-      "8",
+      "9",
 
-    "js-outlander":
-      "StrangeTransistor/outlander#2.11.0",
+    "outlander":
+      "StrangeTransistor/outlander#2e180cd927487da0f60dfbe0f793655b4aa0d851",
 
 
     "typescript":
