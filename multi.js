@@ -1,24 +1,25 @@
 
 var Emitter = require('./emitter')
 
-var yes = Symbol('yes')
+// var yes = Symbol('yes')
 
 module.exports = function MultiEmitter ()
 {
+	// var ems = Object.create(null)
 	var ems = {}
-	var ems_yes = {}
+	// var ems_yes = {}
 	var keys = 0
 
 	function on (key, fn)
 	{
-		if (ems_yes[key] === yes)
+		if (Object.hasOwn(ems, key))
 		{
 			var emitter = ems[key]
 		}
 		else
 		{
 			var emitter = ems[key] = Emitter()
-			ems_yes[key] = yes
+			// ems_yes[key] = yes
 			keys++
 		}
 
@@ -36,7 +37,7 @@ module.exports = function MultiEmitter ()
 			if (emitter.is_empty())
 			{
 				delete ems[key]
-				delete ems_yes[key]
+				// delete ems_yes[key]
 				keys--
 			}
 
@@ -47,7 +48,7 @@ module.exports = function MultiEmitter ()
 
 	function emit (key, ...args)
 	{
-		if (ems_yes[key] === yes)
+		if (Object.hasOwn(ems, key))
 		{
 			ems[key].emit(...args)
 		}
