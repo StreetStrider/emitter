@@ -5,6 +5,7 @@ import type { Disposer } from './emitter.js'
 
 /* export type Key = (string | symbol) */
 
+
 declare namespace MultiEmitter
 {
 
@@ -13,7 +14,7 @@ type HandlersBase =
 	[key: string]: ArgsBase,
 }
 
-export type MultiEmitter<Handlers extends HandlersBase> =
+export type MultiEmitter <Handlers extends HandlersBase> =
 {
 	on   <Key extends keyof Handlers> (key: Key, fn: Subscription<Handlers[Key]>): Disposer,
 	emit <Key extends keyof Handlers> (key: Key, ...args: Handlers[Key]): void,

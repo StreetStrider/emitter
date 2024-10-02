@@ -4,7 +4,7 @@ import type { Emitter } from './emitter.js'
 import type { Subscription } from './emitter.js'
 import type { Disposer } from './emitter.js'
 
-type First<Args extends ArgsBase> = Args extends [] ? undefined : Args[0]
+type First <Args extends ArgsBase> = Args extends [] ? undefined : Args[0]
 
 declare function when <Args extends ArgsBase> (emitter: Emitter<Args>): Promise<First<Args>>
 

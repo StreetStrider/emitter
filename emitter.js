@@ -36,7 +36,7 @@ module.exports = function Emitter ()
 	{
 		return () =>
 		{
-			if (! fn) { return }
+			if (! fn) return
 
 			if (L > 1)
 			{
