@@ -8,6 +8,7 @@ var when = require('../when').multi
 
 describe('MultiEmitter', () =>
 {
+	/* see slot.test */
 	/* see emitter.test */
 
 	it('emits', () =>

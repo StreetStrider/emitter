@@ -8,6 +8,8 @@ var when = require('../when')
 
 describe('Emitter', () =>
 {
+	/* see slot.test */
+	/* see emitter.test */
 	/* see multi.test */
 
 	it('emits', () =>
@@ -172,10 +174,16 @@ describe('Emitter', () =>
 		ds2()
 		expect(e.is_empty()).false
 
+		e.emit(1)
+		expect(e.is_empty()).false
+
 		ds3()
 		expect(e.is_empty()).false
 		ds3()
 		ds3()
+		expect(e.is_empty()).false
+
+		e.emit(10)
 		expect(e.is_empty()).false
 
 		ds1()
@@ -185,6 +193,9 @@ describe('Emitter', () =>
 		expect(e.is_empty()).true
 
 		ds1()
+		expect(e.is_empty()).true
+
+		e.emit(100)
 		expect(e.is_empty()).true
 	})
 

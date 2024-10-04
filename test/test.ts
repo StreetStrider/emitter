@@ -1,9 +1,86 @@
 
-import { Emitter } from '../'
 import { Disposer } from '../'
 
-/* *** */
+
+
+//
+/* Slot */
+import Slot from '../slot'
+
+var s = Slot<[string, number]>()
+
+s // $ExpectType Emitter<[string, number]>
+
+s.on((s: string, n: number) => console.log(s.repeat(n)))
+s.on((s, n) => console.log(s.repeat(n)))
+s.on((s, n) =>
+{
+	s // $ExpectType string
+	n // $ExpectType number
+})
+
+once(s, (s: string, n: number) => console.log(s.repeat(n)))
+once(s, (s, n) => console.log(s.repeat(n)))
+once(s, (s, n) =>
+{
+	s // $ExpectType string
+	n // $ExpectType number
+})
+
+async function wait_slot ()
+{
+	var r = await when(s)
+	r // $ExpectType string
+
+	var e_void = E<[]>()
+
+	var r_void = await when(e_void)
+	r_void // $ExpectType undefined
+}
+
+// $ExpectError
+s.on((a: number, b: number) => console.log(a + b))
+// $ExpectError
+s.on(true)
+// $ExpectError
+s.on()
+
+// $ExpectError
+once(s)
+
+async function wait_error_slot ()
+{
+// $ExpectError
+	await when(s, (a: number, b: number) => console.log(a + b))
+}
+
+s.emit('a', 5)
+
+// $ExpectError
+s.emit(1, 5)
+// $ExpectError
+s.emit(1)
+// $ExpectError
+s.emit()
+
+// $ExpectType Disposer
+var ds = s.on(() => {})
+
+ds()
+ds()
+
+if (s.is_empty())
+{
+	console.log('empty')
+}
+
+// $ExpectError
+console.log(s.is_empty() + 1)
+
+
+//
 /* Emitter */
+import { Emitter } from '../'
 import E from '../'
 import once from '../once'
 import when from '../when'
@@ -102,7 +179,7 @@ if (e.is_empty())
 console.log(e.is_empty() + 1)
 
 
-/* *** */
+//
 /* MultiEmitter */
 import { MultiEmitter } from '../multi'
 import M from '../multi'

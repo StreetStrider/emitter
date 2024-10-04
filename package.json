@@ -1,6 +1,6 @@
 {
      "name": "@streetstrider/emitter",
-  "version": "1.3.0",
+  "version": "1.4.0",
 
   "description": "event emitter",
 
@@ -15,6 +15,7 @@
   "exports":
   {
     ".": "./emitter.js",
+    "./slot": "./slot.js",
     "./emitter": "./emitter.js",
     "./multi": "./multi.js",
 
@@ -25,6 +26,9 @@
   "files":
   [
     "emitter.d.ts",
+
+    "slot.js",
+    "slot.d.ts",
 
     "multi.js",
     "multi.d.ts",
