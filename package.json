@@ -56,7 +56,7 @@
      "perf": "node -r esm-wallaby perf/perf",
      "leak": "node --inspect-brk test/leak",
 
-     "mini": "perf/mini emitter.js && perf/mini multi.js"
+     "mini": "perf/mini emitter.js && perf/mini multi.js && perf/mini slot.js"
   },
 
   "devDependencies":
