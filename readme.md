@@ -4,9 +4,9 @@
 
 > Emitter, MultiEmitter & Slot
 
-This is a simple, easy, and robust implementation of the fundamental JS pattern called «Event Emitter». It is intended to be well-designed, free of misconceptions and minimalistic. This library splits the pattern into **Emitter**, **MultiEmitter**, and **Slot**. Emitter can emit single kind of events. MultiEmitter can emit several kinds of events. Slot can emit single kind of events and guarantee to have no more than one subscription at a time.
+This is a simple, easy, and robust implementation of the fundamental JS pattern called «Event Emitter». It is intended to be well-designed, free of misconceptions, and minimalistic. This library splits the pattern into **Emitter**, **MultiEmitter**, and **Slot**. Emitter can emit single kind of events. MultiEmitter can emit several kinds of events. Slot can emit single kind of events and guarantee to have no more than one subscription at a time.
 
-## [Features](#features) • [API](#api) • [Examples](#examples) • [Types](#types) • [Design](#design) • [License](#license)
+## [Features](#features) • [API](#api) • [Examples](#examples) • [Types](#types) • [Design](#some-design-solutions) • [License](#license)
 
 ## Features
 * Single-channel emitter — no event name, just a list of subscriptions.
@@ -72,6 +72,8 @@ emitter.is_empty() // → true
 ```
 
 ```js
+import Slot from '@streetstrider/emitter/slot'
+
 const slot = Slot()
 
 const disposer = slot.on((a, b) => console.log(a + b))
@@ -111,14 +113,16 @@ async function do_async () {
 emitter.emit('next_one')
 emitter.emit('next_two')
 emitter.emit('next_three')
-
 ```
 
 ## Types
 Built-in TypeScript type definitions.
 ```typescript
-const emitter = Emitter<[number, number]>()
-const emitter = MultiEmitter<{ plus: [number, number] }>()
+const e1 = Emitter<[number, number]>()
+e1.emit(1, 2)
+
+const e2 = MultiEmitter<{ plus: [number, number] }>()
+e2.emit('plus', 1, 2)
 ```
 
 ## Some design solutions
