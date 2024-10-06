@@ -2,7 +2,7 @@
 declare namespace Emitter
 {
 
-export type ArgsBase = any[]
+export type ArgsBase = unknown[]
 
 export type Subscription <Args extends ArgsBase> = (...args: Args) => void
 
