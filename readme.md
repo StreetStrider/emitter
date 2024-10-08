@@ -128,7 +128,11 @@ e2.emit('plus', 1, 2)
 ## Some design solutions
 
 ### Why Disposer instead of removeListener?
+Disposer is a simple `() => void` function that can be easily passed around, used as a one-off for event from another emitter, and composed with other disposers via ordinary `compose`. You can pass it without wrapping it with an arrow function since disposer is a simple void function. It is much easier and cleaner than storing references to the original function and emitter. The disposer is exactly the same for Emitter, MultiEmitter, and Slot. Disposer make some efforts to disrupt references to prevent memory leaks and open a way for earlier garbage collection.
+
 ### Why split Emitter and MultiEmitter?
+Most of the approaches (like EventEmitter or nanoevents) convege to the top most powerful multi-channel emitter since it covers all the cases. However, in many situations, Emitter is just enough. It is much simpler and easier to have one or two separate Emitter instances with clean semantics rather than have some string-keyed channels inside MultiEmitter. It is not smart to use MultiEmitter if you have only one type of event.
+
 ### Why split Emitter and Slot?
 
 ### Why are `once` and `when` not in the core?
