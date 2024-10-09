@@ -19,7 +19,7 @@ This is a simple, easy, and robust implementation of the fundamental JS pattern 
 * Provides disposer.
 * Fully tested & 100% coverage.
 * Precise TypeScript definitions; typedefs are well-tested.
-* The code is ES6 CJS with correct typedefs, work in any environment.
+* The code is ES6 CJS with correct typedefs, works in any environment.
 * Emitter is 578 characters when minified (Multi is 971, Slot is 349).
 
 ## API
