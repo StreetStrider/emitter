@@ -134,9 +134,10 @@ Disposer is a simple `() => void` function that can be easily passed around, use
 Most of the approaches (like EventEmitter or nanoevents) convege to the top most powerful multi-channel emitter since it covers all the cases. However, in many situations, Emitter is just enough. It is much simpler and easier to have one or two separate Emitter instances with clean semantics rather than have some string-keyed channels inside MultiEmitter. It is not smart to use MultiEmitter if you have only one type of event.
 
 ### Why split Emitter and Slot?
+In many situations, the Event Emitter pattern is used for singular subscription as a replacement for callback. Slot still follows inversion of control like a normal Emitter. Instead of using callback as an input parameter, we subscribe to a specific explicit Slot instance. A single subscription is guaranteed, so we have additional guarantees.
 
 ### Why are `once` and `when` not in the core?
-Because they are not part of the minimal API. Making them public methods on emitter would also make them non-tree-shakeable and the only gain would be consistent syntax with `on` (via dot). If you still want this, you can patch your emitters by binding/partialing (bring your own) `once` and/or `when`. You can also attach them by currying them.
+Because they are not part of the minimal API. Making them public methods on emitter would also make them non-tree-shakeable, and the only gain would be consistent syntax with `on` (via dot). If you still want this, you can patch your emitters by binding/partialing (bring your own) `once` and/or `when`. You can also attach them by currying them.
 
 ```js
 import once from '@streetstrider/emitter/once'
