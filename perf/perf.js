@@ -2,6 +2,7 @@
 
 var Emitter = require('../')
 var MultiEmitter = require('../multi')
+// var Slot = require('../slot')
 import { createNanoEvents as Nanoevents } from 'nanoevents'
 
 var { add } = require('benny')
@@ -47,6 +48,21 @@ Suite('zero',
 
 Suite('(1) single subscriber',
 [
+	/*
+	add('slot', () =>
+	{
+		var s = Slot()
+
+		var n = 1
+		s.on(m => { n = (n * m) })
+
+		return () =>
+		{
+			s.emit(-1)
+		}
+	}),
+	//*/
+
 	add('emitter', () =>
 	{
 		var e = Emitter()
@@ -89,6 +105,21 @@ Suite('(1) single subscriber',
 
 Suite('(0) zero subscribers',
 [
+	/*
+	add('slot', () =>
+	{
+		var s = Slot()
+
+		// var n = 1
+		// s.on(m => { n = (n * m) })
+
+		return () =>
+		{
+			s.emit(-1)
+		}
+	}),
+	//*/
+
 	add('emitter', () =>
 	{
 		var e = Emitter()
@@ -227,6 +258,21 @@ Suite('(10) ten subscribers',
 
 Suite('(1 x 3) single subscriber, three arguments',
 [
+	/*
+	add('slot', () =>
+	{
+		var s = Slot()
+
+		var n = 1
+		s.on((m1, m2, m3) => { n = (n * m1 * m2 * m3) })
+
+		return () =>
+		{
+			s.emit(-1, -1, -1)
+		}
+	}),
+	//*/
+
 	add('emitter', () =>
 	{
 		var e = Emitter()
