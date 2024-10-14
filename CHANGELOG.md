@@ -1,3 +1,6 @@
+## `1.4.0` — 2024-10-15
+* Slot.
+
 ## `1.3.0` — 2023-08-18
 * provide export map.
 * fix cjs typedefs.
