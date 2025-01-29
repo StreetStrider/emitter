@@ -162,4 +162,4 @@ const disposer = emitter.once('plus', (a, b) => console.log(a + b))
 ```
 
 ## License
-ISC, © Strider, 2024.
+ISC, © Strider, 2025.
