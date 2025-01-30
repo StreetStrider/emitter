@@ -33,5 +33,12 @@ module.exports = function Slot ()
 		return (! fn1)
 	}
 
-	return { on, emit, is_empty }
+	function emit_must (...args)
+	{
+		if (! fn1) throw new ReferenceError('empty')
+
+		emit(...args)
+	}
+
+	return { on, emit, emit_must, is_empty }
 }

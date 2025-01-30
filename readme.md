@@ -24,7 +24,7 @@ This is a simple, easy, and robust implementation of the fundamental JS pattern 
 
 ## API
 
-You can consult `.d.ts` files for the exact API. Below is preudocode. Emitter and Slot have the same API.
+You can consult `.d.ts` files for the exact API. Below is preudocode. Emitter and Slot have strong similarities, but Slot provides additional `emit_must` method.
 
 ```ts
 type Disposer = () => void
@@ -34,6 +34,16 @@ type Emitter<Args extends unknown[]> =
 {
   on (fn: Subscription<Args>): Disposer,
   emit (...args: Args): void,
+  is_empty (): boolean,
+}
+```
+
+```ts
+type Slot<Args extends unknown[]> =
+{
+  on (fn: Subscription<Args>): Disposer,
+  emit (...args: Args): void,
+  emit_must (...args: Args): void,
   is_empty (): boolean,
 }
 ```

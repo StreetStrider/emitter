@@ -190,4 +190,51 @@ describe('Slot', () =>
 			})
 		}
 	})
+
+	/*
+	it('emit_or', () =>
+	{
+		var e = Slot()
+
+		var n = 0
+		var r = 0
+
+		e.emit_or((x) => { n += x }, 1)
+		expect(r).eq(0)
+		expect(n).eq(1)
+
+		e.on((x) => { r += x })
+		expect(r).eq(0)
+		expect(n).eq(1)
+
+		e.emit_or((x) => { n += x }, 10)
+		expect(r).eq(10)
+		expect(n).eq(1)
+
+		e.emit(100)
+		expect(r).eq(110)
+		expect(n).eq(1)
+	})
+	*/
+
+	it('emit_must', () =>
+	{
+		var e = Slot()
+
+		var r = 0
+
+		expect(() =>
+		{
+			e.emit_must(1)
+		})
+		.throw(ReferenceError)
+
+		expect(r).eq(0)
+
+		e.on((x) => { r += x })
+		expect(r).eq(0)
+
+		e.emit_must(1)
+		expect(r).eq(1)
+	})
 })

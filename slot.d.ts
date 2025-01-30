@@ -6,7 +6,12 @@ import type { Emitter }  from './emitter.js'
 declare namespace Slot
 {
 
-export type { Emitter as Slot }
+export type Slot <Args extends ArgsBase> = Emitter<Args>
+	&
+{
+	/* emit_or (fallback_fn: (...args: Args) => void, ...args: Args): void, */
+	emit_must (...args: Args): void,
+}
 
 }
 
