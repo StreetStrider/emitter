@@ -25,4 +25,4 @@ export type MultiEmitter <Handlers extends HandlersBase> =
 
 declare function MultiEmitter <Handlers extends MultiEmitter.HandlersBase> (): MultiEmitter.MultiEmitter<Handlers>
 
-export = MultiEmitter
+export = MultiEmitter /* TODO: */
