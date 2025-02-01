@@ -1,20 +1,24 @@
 
 import type { ArgsBase } from './emitter.js'
-import type { Emitter }  from './emitter.js'
+import type { Disposer }  from './emitter.js'
 
 
 declare namespace Slot
 {
 
-export type Slot <Args extends ArgsBase> = Emitter<Args>
-	&
+export type Subscription <Args extends ArgsBase, Return = unknown> = (...args: Args) => Return
+
+export type Slot <Args extends ArgsBase, Return = unknown> =
 {
-	/* emit_or (fallback_fn: (...args: Args) => void, ...args: Args): void, */
-	emit_must (...args: Args): void,
+	on (fn: Subscription<Args, Return>): Disposer,
+	emit (...args: Args): Return,
+	/* emit_or (fallback_fn: (...args: Args) => Return, ...args: Args): Return, */
+	emit_must (...args: Args): Return,
+	is_empty (): boolean,
 }
 
 }
 
-declare function Slot <Args extends ArgsBase> (): Emitter<Args>
+declare function Slot <Args extends ArgsBase, Return = unknown> (): Slot.Slot<Args, Return>
 
 export = Slot

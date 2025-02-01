@@ -9,7 +9,7 @@ import Slot from '../slot'
 
 var s = Slot<[string, number]>()
 
-s // $ExpectType Emitter<[string, number]>
+s // $ExpectType Slot<[string, number], unknown>
 
 s.on((s: string, n: number) => console.log(s.repeat(n)))
 s.on((s, n) => console.log(s.repeat(n)))

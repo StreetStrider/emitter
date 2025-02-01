@@ -27,6 +27,19 @@ describe('Slot', () =>
 		expect(r).eq(11)
 	})
 
+	it('returns value', () =>
+	{
+		var e = Slot()
+
+		var v = e.emit(1)
+		expect(v).eq(void 0)
+
+		e.on((x) => { return `ok_${ x }` })
+
+		var v = e.emit(1)
+		expect(v).eq('ok_1')
+	})
+
 	it('prevent multiple subs', () =>
 	{
 		var e = Slot()
@@ -231,10 +244,15 @@ describe('Slot', () =>
 
 		expect(r).eq(0)
 
-		e.on((x) => { r += x })
+		e.on((x) =>
+		{
+			r += x
+			return 'ok'
+		})
 		expect(r).eq(0)
 
-		e.emit_must(1)
+		var v = e.emit_must(1)
 		expect(r).eq(1)
+		expect(v).eq('ok')
 	})
 })

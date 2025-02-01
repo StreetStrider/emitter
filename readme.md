@@ -39,11 +39,13 @@ type Emitter<Args extends unknown[]> =
 ```
 
 ```ts
-type Slot<Args extends unknown[]> =
+type Subscription <Args extends unknown[], Return = unknown> = (...args: Args) => Return
+
+type Slot<Args extends unknown[], Return = unknown> =
 {
-  on (fn: Subscription<Args>): Disposer,
-  emit (...args: Args): void,
-  emit_must (...args: Args): void,
+  on (fn: Subscription<Args, Return>): Disposer,
+  emit (...args: Args): Return,
+  emit_must (...args: Args): Return,
   is_empty (): boolean,
 }
 ```

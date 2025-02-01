@@ -25,7 +25,7 @@ module.exports = function Slot ()
 
 	function emit (...args)
 	{
-		fn1 && fn1(...args)
+		return fn1?.(...args)
 	}
 
 	function is_empty ()
@@ -37,7 +37,7 @@ module.exports = function Slot ()
 	{
 		if (! fn1) throw new ReferenceError('empty')
 
-		emit(...args)
+		return fn1(...args)
 	}
 
 	return { on, emit, emit_must, is_empty }
