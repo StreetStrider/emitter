@@ -1,9 +1,11 @@
 
-var { expect } = require('chai')
+declare var setTimeout: any
 
-var Emitter = require('../')
-var once = require('../once')
-var when = require('../when')
+import { expect } from 'chai'
+
+import Emitter from 'emitter'
+import once from 'emitter/once'
+import when from 'emitter/when'
 
 
 describe('Emitter', () =>
@@ -14,7 +16,7 @@ describe('Emitter', () =>
 
 	it('emits', () =>
 	{
-		var e = Emitter()
+		var e = Emitter<[ number ]>()
 
 		var r1 = 0
 		var r2 = 0
@@ -42,7 +44,7 @@ describe('Emitter', () =>
 
 	it('passes all args', () =>
 	{
-		var e = Emitter()
+		var e = Emitter<[ number, string, boolean ]>()
 
 		var r = null
 
@@ -55,7 +57,7 @@ describe('Emitter', () =>
 
 	it('provides disposer', () =>
 	{
-		var e = Emitter()
+		var e = Emitter<[ number ]>()
 
 		var r1 = 0
 		var r2 = 0
@@ -95,7 +97,7 @@ describe('Emitter', () =>
 
 	it('allows dispose during emit', () =>
 	{
-		var e = Emitter()
+		var e = Emitter<[ number ]>()
 
 		var r1 = 0
 		var r2 = 0
@@ -129,10 +131,10 @@ describe('Emitter', () =>
 
 	it('disposes single fn', () =>
 	{
-		var e = Emitter()
+		var e = Emitter<[ number ]>()
 
 		var r = 0
-		var f = (x) => { r = (r + x) }
+		var f = (x: number) => { r = (r + x) }
 
 		var ds1 = e.on(f)
 		var ds2 = e.on(f)
@@ -201,7 +203,7 @@ describe('Emitter', () =>
 
 	it('once', () =>
 	{
-		var e = Emitter()
+		var e = Emitter<[ number ]>()
 
 		var r1 = 0
 		var r2 = 0
@@ -234,30 +236,27 @@ describe('Emitter', () =>
 
 	it('when', async () =>
 	{
-		var e1 = Emitter()
+		var e1 = Emitter<[ string ]>()
 		var e2 = Emitter()
 
-		var
-		p1 = when(e1)
-		p1 = Promise.race([ p1, timeout() ])
+		var p1 = when(e1)
+		var p11 = Promise.race([ p1, timeout() ])
 
-		var
-		p2 = when(e2)
-		p2 = Promise.race([ p2, timeout() ])
+		var p2 = when(e2)
+		var p22 = Promise.race([ p2, timeout() ])
 
 		e1.emit('E1')
 		e1.emit('E10')
 		/* e2.emit('E2') */
 		/* e2.emit('E20') */
-		await p1.then(x => expect(x).eq('E1'), () => expect.fail('must not throw'))
-		await p2.then(() => expect.fail('must throw'), e => expect(e instanceof TypeError))
+		await p11.then(x => expect(x).eq('E1'), () => expect.fail('must not throw'))
+		await p22.then(() => expect.fail('must throw'), e => expect(e instanceof TypeError))
 
-		var
-		p1 = when(e1)
-		p1 = Promise.race([ p1, timeout() ])
+		var p3 = when(e1)
+		var p33 = Promise.race([ p3, timeout() ])
 
 		e1.emit('E100')
-		await p1.then(x => expect(x).eq('E100'), () => expect.fail('must not throw'))
+		await p33.then(x => expect(x).eq('E100'), () => expect.fail('must not throw'))
 
 		function timeout ()
 		{

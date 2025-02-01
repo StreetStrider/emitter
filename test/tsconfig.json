@@ -13,8 +13,6 @@
 
 		"strict": true,
 		"target": "ES6",
-		"lib":  [ "ES6", "dom" ],
-
-		"moduleResolution": "Node"
+		"lib":  [ "ES6" ]
 	}
 }

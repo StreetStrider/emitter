@@ -1,9 +1,11 @@
 
-var { expect } = require('chai')
+declare var setTimeout: any
 
-var MultiEmitter = require('../multi')
-var once = require('../once').multi
-var when = require('../when').multi
+import { expect } from 'chai'
+
+import MultiEmitter from 'emitter/multi'
+import { multi as once } from 'emitter/once'
+import { multi as when } from 'emitter/when'
 
 
 describe('MultiEmitter', () =>
@@ -13,7 +15,7 @@ describe('MultiEmitter', () =>
 
 	it('emits', () =>
 	{
-		var e = MultiEmitter()
+		var e = MultiEmitter<{ a: [ number ], b: [ number ] }>()
 
 		var r1 = 0
 		var r2 = 0
@@ -38,6 +40,7 @@ describe('MultiEmitter', () =>
 
 		e.emit('a', 10)
 		e.emit('b', 20)
+		/* @ts-expect-error */
 		e.emit('c', 30)
 
 		expect(r1).eq(11)
@@ -48,8 +51,8 @@ describe('MultiEmitter', () =>
 
 	it('supports symbols', () =>
 	{
-		var s = Symbol('s')
-		var e = MultiEmitter()
+		const s: unique symbol = Symbol('s')
+		var e = MultiEmitter<{ [ s ]: [ number ] }>()
 
 		var r = 0
 
@@ -70,7 +73,7 @@ describe('MultiEmitter', () =>
 
 	it('passes all args', () =>
 	{
-		var e = MultiEmitter()
+		var e = MultiEmitter<{ X: [ number, string, boolean ] }>()
 
 		var r = null
 
@@ -83,7 +86,7 @@ describe('MultiEmitter', () =>
 
 	it('provides disposer', () =>
 	{
-		var e = MultiEmitter()
+		var e = MultiEmitter<{ a: [ number ], b: [ number ] }>()
 
 		var r1 = 0
 		var r2 = 0
@@ -96,6 +99,7 @@ describe('MultiEmitter', () =>
 
 		e.emit('a', 1)
 		e.emit('b', 2)
+		/* @ts-expect-error */
 		e.emit('c', 3)
 
 		expect(r1).eq(1)
@@ -104,6 +108,7 @@ describe('MultiEmitter', () =>
 		ds1()
 		e.emit('a', 10)
 		e.emit('b', 20)
+		/* @ts-expect-error */
 		e.emit('c', 30)
 
 		expect(r1).eq(1)
@@ -112,6 +117,7 @@ describe('MultiEmitter', () =>
 		ds1()
 		e.emit('a', 100)
 		e.emit('b', 200)
+		/* @ts-expect-error */
 		e.emit('c', 300)
 
 		expect(r1).eq(1)
@@ -120,6 +126,7 @@ describe('MultiEmitter', () =>
 		ds2()
 		e.emit('a', 1000)
 		e.emit('b', 2000)
+		/* @ts-expect-error */
 		e.emit('c', 3000)
 
 		expect(r1).eq(1)
@@ -131,7 +138,7 @@ describe('MultiEmitter', () =>
 
 	it('allows dispose during emit', () =>
 	{
-		var e = MultiEmitter()
+		var e = MultiEmitter<{ a: [ number ] }>()
 
 		var r1 = 0
 		var r2 = 0
@@ -165,10 +172,10 @@ describe('MultiEmitter', () =>
 
 	it('disposes single fn', () =>
 	{
-		var e = MultiEmitter()
+		var e = MultiEmitter<{ a: [ number ], b: [ number ] }>()
 
 		var r = 0
-		var f = (x) => { r = (r + x) }
+		var f = (x: number) => { r = (r + x) }
 
 		var ds1 = e.on('a', f)
 		var ds2 = e.on('a', f)
@@ -238,14 +245,14 @@ describe('MultiEmitter', () =>
 
 	it('doesnt collide with prototypes', () =>
 	{
-		var e = MultiEmitter()
+		var e = MultiEmitter<Record<string, [ number ]>>()
 
 		e.emit('a', 1)
 		e.emit('toString', 2)
 		e.emit('valueOf', 3)
 
 		var r = 0
-		e.on('valueOf', (x) => { r = (r + x) })
+		e.on('valueOf', (x: number) => { r = (r + x) })
 
 		e.emit('a', 1)
 		e.emit('toString', 2)
@@ -256,7 +263,7 @@ describe('MultiEmitter', () =>
 
 	it('once', () =>
 	{
-		var e = MultiEmitter()
+		var e = MultiEmitter<{ a: [ number ], b: [ number ], c: [ number ] }>()
 
 		var r1 = 0
 		var r2 = 0

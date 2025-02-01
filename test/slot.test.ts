@@ -1,9 +1,11 @@
 
-var { expect } = require('chai')
+declare var setTimeout: any
 
-var Slot = require('../slot')
-var once = require('../once')
-var when = require('../when')
+import { expect } from 'chai'
+
+import Slot from 'emitter/slot'
+import once from 'emitter/once'
+import when from 'emitter/when'
 
 
 describe('Slot', () =>
@@ -13,7 +15,7 @@ describe('Slot', () =>
 
 	it('emits', () =>
 	{
-		var e = Slot()
+		var e = Slot<[ number ]>()
 
 		var r = 0
 
@@ -29,7 +31,7 @@ describe('Slot', () =>
 
 	it('returns value', () =>
 	{
-		var e = Slot()
+		var e = Slot<[ number ], string>()
 
 		var v = e.emit(1)
 		expect(v).eq(void 0)
@@ -55,7 +57,7 @@ describe('Slot', () =>
 
 	it('passes all args', () =>
 	{
-		var e = Slot()
+		var e = Slot<[ number, string, boolean ]>()
 
 		var r = null
 
@@ -68,7 +70,7 @@ describe('Slot', () =>
 
 	it('provides disposer', () =>
 	{
-		var e = Slot()
+		var e = Slot<[ number ]>()
 
 		var r = 0
 
@@ -92,7 +94,7 @@ describe('Slot', () =>
 
 	it('allows dispose during emit', () =>
 	{
-		var e = Slot()
+		var e = Slot<[ number ]>()
 
 		var r = 0
 
@@ -113,7 +115,7 @@ describe('Slot', () =>
 
 	it('is_empty', () =>
 	{
-		var e = Slot()
+		var e = Slot<[ number ]>()
 
 		expect(e.is_empty()).true
 
@@ -141,7 +143,7 @@ describe('Slot', () =>
 
 	it('once', () =>
 	{
-		var e = Slot()
+		var e = Slot<[ number ]>()
 
 		var r = 0
 		var ds = once(e, (x) => { r += x })
@@ -170,30 +172,27 @@ describe('Slot', () =>
 
 	it('when', async () =>
 	{
-		var e1 = Slot()
+		var e1 = Slot<[ string ]>()
 		var e2 = Slot()
 
-		var
-		p1 = when(e1)
-		p1 = Promise.race([ p1, timeout() ])
+		var p1 = when(e1)
+		var p11 = Promise.race([ p1, timeout() ])
 
-		var
-		p2 = when(e2)
-		p2 = Promise.race([ p2, timeout() ])
+		var p2 = when(e2)
+		var p22 = Promise.race([ p2, timeout() ])
 
 		e1.emit('E1')
 		e1.emit('E10')
 		/* e2.emit('E2') */
 		/* e2.emit('E20') */
-		await p1.then(x => expect(x).eq('E1'), () => expect.fail('must not throw'))
-		await p2.then(() => expect.fail('must throw'), e => expect(e instanceof TypeError))
+		await p11.then(x => expect(x).eq('E1'), () => expect.fail('must not throw'))
+		await p22.then(() => expect.fail('must throw'), e => expect(e instanceof TypeError))
 
-		var
-		p1 = when(e1)
-		p1 = Promise.race([ p1, timeout() ])
+		var p3 = when(e1)
+		var p33 = Promise.race([ p3, timeout() ])
 
 		e1.emit('E100')
-		await p1.then(x => expect(x).eq('E100'), () => expect.fail('must not throw'))
+		await p33.then(x => expect(x).eq('E100'), () => expect.fail('must not throw'))
 
 		function timeout ()
 		{
@@ -232,7 +231,7 @@ describe('Slot', () =>
 
 	it('emit_must', () =>
 	{
-		var e = Slot()
+		var e = Slot<[ number ], string>()
 
 		var r = 0
 

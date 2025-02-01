@@ -6,6 +6,10 @@
 		"once.d.ts",
 		"when.d.ts"
 	],
+	"include":
+	[
+		"test/*.test.ts"
+	],
 	"compilerOptions":
 	{
 		"noEmit": true,

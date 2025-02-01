@@ -1,11 +1,13 @@
 
-import { Disposer } from '../'
+declare var console: any
+
+import type { Disposer } from 'emitter'
 
 
 
 //
 /* Slot */
-import Slot from '../slot'
+import Slot from 'emitter/slot'
 
 var s = Slot<[string, number]>()
 
@@ -80,10 +82,10 @@ console.log(s.is_empty() + 1)
 
 //
 /* Emitter */
-import { Emitter } from '../'
-import E from '../'
-import once from '../once'
-import when from '../when'
+import type { Emitter } from 'emitter'
+import E from 'emitter'
+import once from 'emitter/once'
+import when from 'emitter/when'
 
 var e = E<[string, number]>()
 
@@ -181,10 +183,10 @@ console.log(e.is_empty() + 1)
 
 //
 /* MultiEmitter */
-import { MultiEmitter } from '../multi'
-import M from '../multi'
-import { multi as once_multi } from '../once'
-import { multi as when_multi } from '../when'
+import type { MultiEmitter } from 'emitter/multi'
+import M from 'emitter/multi'
+import { multi as once_multi } from 'emitter/once'
+import { multi as when_multi } from 'emitter/when'
 
 var m = M<{ a: [string, number], b: [boolean] }>()
 

@@ -1,6 +1,6 @@
 {
      "name": "@streetstrider/emitter",
-  "version": "1.4.0",
+  "version": "1.5.0",
 
   "description": "event emitter",
 
@@ -50,7 +50,7 @@
       "tsc": "tsc",
       "dts": "dtslint --expectOnly --localTs ./node_modules/typescript/lib test",
 
-     "unit": "mocha --check-leaks test/*.test.js",
+     "unit": "mocha -n 'import=tsx' --check-leaks test/*.test.ts",
     "cover": "c8 -r text -r html npm run unit",
 
      "perf": "node -r esm-wallaby perf/perf",
@@ -61,6 +61,10 @@
 
   "devDependencies":
   {
+    "emitter":
+      "./",
+
+
     "eslint":
       "9",
 
@@ -73,6 +77,15 @@
 
     "dtslint":
       "4.2.1",
+
+    "tsx":
+      "4.19.2",
+
+    "@types/mocha":
+      "10.0.10",
+
+    "@types/chai":
+      "5.0.1",
 
 
     "mocha":
