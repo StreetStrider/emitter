@@ -25,6 +25,8 @@
 
   "files":
   [
+    "CHANGELOG.md",
+
     "emitter.d.ts",
 
     "slot.js",
