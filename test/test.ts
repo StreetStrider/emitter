@@ -327,8 +327,10 @@ async function wait_mm ()
 }
 
 
+//
 /* cross-once: */
 // $ExpectError
 once(m, (a: number, b: number) => console.log(a + b))
+
 // $ExpectError
 multi_once(e, 'b', (b) => {})
