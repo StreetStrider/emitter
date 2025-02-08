@@ -25,7 +25,7 @@ declare function multi
 	Key  extends string,
 	Data extends ArgsBase
 >
-(multi: MultiOn<Key, Data>, key: Key): Promise<First<Data>>
+(multi: MultiOn<Key, Data>, key: NoInfer<Key>): Promise<First<Data>>
 
 
 declare const When: typeof when & { multi: typeof multi }

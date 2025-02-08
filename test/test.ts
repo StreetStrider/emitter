@@ -299,8 +299,8 @@ async function wait_error_multi ()
 // $ExpectError
 	await when_multi()
 
-// $-ExpectError TODO:
-	await when_multi(m, 'c') // $ExpectType string | boolean
+// $ExpectError
+	await when_multi(m, 'c')
 }
 
 
