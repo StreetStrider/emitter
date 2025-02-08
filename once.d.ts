@@ -27,4 +27,4 @@ declare function multi
 
 
 declare const Once: typeof once & { multi: typeof multi }
-export = Once /* TODO: */
+export = Once /* TODO in v2.0 */

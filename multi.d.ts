@@ -30,4 +30,4 @@ export type MultiOn <Key extends string, Data extends ArgsBase> =
 
 declare function MultiEmitter <Handlers extends MultiEmitter.HandlersBase> (): MultiEmitter.MultiEmitter<Handlers>
 
-export = MultiEmitter /* TODO: */
+export = MultiEmitter /* TODO in v2.0 */
