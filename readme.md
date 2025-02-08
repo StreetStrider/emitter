@@ -4,7 +4,7 @@
 
 > Emitter, MultiEmitter & Slot
 
-This is a simple, easy, and robust implementation of the fundamental JS pattern called «Event Emitter». It is intended to be well-designed, free of misconceptions, and minimalistic. This library splits the pattern into **Emitter**, **MultiEmitter**, and **Slot**. Emitter can emit single kind of events. MultiEmitter can emit several kinds of events. Slot can emit single kind of events and guarantee to have no more than one subscription at a time.
+This is a simple, easy, and robust implementation of the fundamental JS pattern called «Event Emitter». It is intended to be well-designed, free of misconceptions, and minimalistic. This library splits the pattern into **Emitter**, **MultiEmitter**, and **Slot**. Emitter can emit a single kind of event. MultiEmitter can emit several kinds of events. Slot can emit a single kind of event and guarantee to have no more than one subscription at a time.
 
 ## [Features](#features) • [API](#api) • [Examples](#examples) • [Types](#types) • [Design](#some-design-solutions) • [License](#license)
 
@@ -24,7 +24,7 @@ This is a simple, easy, and robust implementation of the fundamental JS pattern 
 
 ## API
 
-You can consult `.d.ts` files for the exact API. Below is preudocode. Emitter and Slot have strong similarities, but Slot provides additional `emit_must` method.
+You can consult `.d.ts` files for the exact API. Below is pseudocode. Emitter and Slot have strong similarities, but Slot provides an additional `emit_must` method.
 
 ```ts
 type Disposer = () => void
@@ -140,16 +140,16 @@ e2.emit('plus', 1, 2)
 ## Some design solutions
 
 ### Why Disposer instead of removeListener?
-Disposer is a simple `() => void` function that can be easily passed around, used as a one-off for event from another emitter, and composed with other disposers via ordinary `compose`. You can pass it without wrapping it with an arrow function since disposer is a simple void function. It is much easier and cleaner than storing references to the original function and emitter. The disposer is exactly the same for Emitter, MultiEmitter, and Slot. Disposer make some efforts to disrupt references to prevent memory leaks and open a way for earlier garbage collection.
+Disposer is a simple `() => void` function that can be easily passed around, used as a one-off for an event from another emitter, and composed with other disposers via ordinary `compose`. You can pass it without wrapping it with an arrow function since disposer is a simple void function. It is much easier and cleaner than storing references to the original function and emitter. The disposer is exactly the same for Emitter, MultiEmitter, and Slot. Disposer make some efforts to disrupt references to prevent memory leaks and open a way for earlier garbage collection.
 
 ### Why split Emitter and MultiEmitter?
-Most of the approaches (like EventEmitter or nanoevents) convege to the topmost powerful multi-channel emitter since it covers all the cases. However, in many situations, Emitter is just enough. It is much simpler and easier to have one or two separate Emitter instances with clean semantics rather than have some string-keyed channels inside MultiEmitter. It is not smart to use MultiEmitter if you have only one type of event.
+Most of the approaches (like EventEmitter or nanoevents) converge to the topmost powerful multi-channel emitter since it covers all the cases. However, in many situations, Emitter is just enough. It is much simpler and easier to have one or two separate Emitter instances with clean semantics rather than have some string-keyed channels inside MultiEmitter. It is not smart to use MultiEmitter if you have only one type of event.
 
 ### Why split Emitter and Slot?
-In many situations, the Event Emitter pattern is used for singular subscription as a replacement for callback. Slot still follows inversion of control like a normal Emitter. Instead of using callback as an input parameter, we subscribe to a specific explicit Slot instance. A single subscription is guaranteed, so we have additional guarantees.
+In many situations, the Event Emitter pattern is used for a singular subscription as a replacement for a callback. Slot still follows inversion of control like a normal Emitter. Instead of using a callback as an input parameter, we subscribe to a specific explicit Slot instance. A single subscription is guaranteed, so we have additional guarantees.
 
 ### Why are `once` and `when` not in the core?
-Because they are not part of the minimal API. Making them public methods on emitter would also make them non-tree-shakeable, and the only gain would be consistent syntax with `on` (via dot). If you still want this, you can patch your emitters by binding/partialing (bring your own) `once` and/or `when`. You can also attach them by currying them.
+Because they are not part of the minimal API. Making them public methods on the emitter would also make them non-tree-shakeable, and the only gain would be consistent syntax with `on` (via dot). If you still want this, you can patch your emitters by binding/partialing (bring your own) `once` and/or `when`. You can also attach them by currying them.
 
 ```js
 import once from '@streetstrider/emitter/once'
