@@ -21,6 +21,11 @@ export type MultiEmitter <Handlers extends HandlersBase> =
 	is_empty (): boolean,
 }
 
+export type MultiOn <Key extends string, Data extends ArgsBase> =
+{
+	on (key: Key, fn: Subscription<Data>): Disposer,
+}
+
 }
 
 declare function MultiEmitter <Handlers extends MultiEmitter.HandlersBase> (): MultiEmitter.MultiEmitter<Handlers>

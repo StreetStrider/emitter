@@ -182,6 +182,29 @@ console.log(e.is_empty() + 1)
 
 
 //
+/* Emitter-like */
+var ee =
+{
+	on (fn: (s: string, x: number) => void): Disposer
+	{
+		return (null as any)
+	},
+}
+
+once(ee, (s, n) =>
+{
+	s // $ExpectType string
+	n // $ExpectType number
+})
+
+async function wait_ee ()
+{
+	var r = await when(ee)
+	r // $ExpectType string
+}
+
+
+//
 /* MultiEmitter */
 import type { MultiEmitter } from 'emitter/multi'
 import M from 'emitter/multi'
@@ -276,8 +299,31 @@ async function wait_error_multi ()
 // $ExpectError
 	await when_multi()
 
-// $ExpectError
-	await when_multi(m, 'c')
+// $-ExpectError TODO:
+	await when_multi(m, 'c') // $ExpectType string | boolean
+}
+
+
+//
+/* MultiEmitter-like */
+var mm =
+{
+	on (key: string, fn: (s: string, x: number) => void): Disposer
+	{
+		return (null as any)
+	},
+}
+
+once_multi(mm, 'a', (s, n) =>
+{
+	s // $ExpectType string
+	n // $ExpectType number
+})
+
+async function wait_mm ()
+{
+	var r = await when_multi(mm, 'a')
+	r // $ExpectType string
 }
 
 

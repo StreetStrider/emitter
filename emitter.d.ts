@@ -15,6 +15,8 @@ export type Emitter <Args extends ArgsBase> =
 	is_empty (): boolean,
 }
 
+export type On <Args extends ArgsBase> = Pick<Emitter<Args>, 'on'>
+
 }
 
 declare function Emitter <Args extends Emitter.ArgsBase> (): Emitter.Emitter<Args>
