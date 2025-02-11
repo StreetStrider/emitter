@@ -1,4 +1,4 @@
-## `1.5.0` —
+## `1.5.0` — 2025-02-11
 * Slot: emit_must.
 * Slot: emit returns value.
 
