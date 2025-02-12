@@ -2,7 +2,7 @@
      "name": "@streetstrider/emitter",
   "version": "1.5.0",
 
-  "description": "event emitter",
+  "description": "Simple, easy, and robust Event Emitter",
 
    "author": "Strider <strange.transistor@gmail.com>",
   "license": "ISC",
