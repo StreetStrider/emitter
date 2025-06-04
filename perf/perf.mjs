@@ -1,166 +1,156 @@
-/* eslint-disable max-params */
 
 import Emitter from 'emitter'
 import MultiEmitter from 'emitter/multi'
 
 import { createNanoEvents as Nanoevents } from 'nanoevents'
 
-import { add, suite, cycle, complete } from 'benny'
+import { bench, run } from 'mitata'
+import { group, summary, barplot } from 'mitata'
+import { do_not_optimize } from 'mitata'
 
 
-function Suite (name, cases)
+function Suite (name, fn)
 {
-	return suite(
-		name,
-		...cases,
-
-		cycle(),
-		complete(),
-
-		/*
-		save(
-		{
-			folder: 'perf/',
-			file:   'emitter',
-			format: 'chart.html',
-		}),
-		*/
-	)
+	group(name, () => summary(() => barplot(fn)))
 }
+function xSuite () {} // eslint-disable-line no-unused-vars
 
-Suite('zero',
-[
-	add('zero', () =>
+
+Suite('zero', () =>
+{
+	bench('zero', function * ()
 	{
 		var n = 1
 
 		var emit = (m) => { n = (n * m) }
 
-		return () =>
+		yield () =>
 		{
-			emit(-1)
+			do_not_optimize(emit(-1))
 		}
-	}),
-])
+	})
+})
 
 
-Suite('(1) single subscriber',
-[
+Suite('(1) single subscriber', () =>
+{
 	/*
-	add('slot', () =>
+	bench('slot', function * ()
 	{
 		var s = Slot()
 
 		var n = 1
 		s.on(m => { n = (n * m) })
 
-		return () =>
+		yield () =>
 		{
 			s.emit(-1)
 		}
-	}),
+	})
 	//*/
 
-	add('emitter', () =>
+	bench('emitter', function * ()
 	{
 		var e = Emitter()
 
 		var n = 1
 		e.on(m => { n = (n * m) })
 
-		return () =>
+		yield () =>
 		{
-			e.emit(-1)
+			do_not_optimize(e.emit(-1))
 		}
-	}),
+	})
 
-	add('multi', () =>
+	bench('multi', function * ()
 	{
 		var e = MultiEmitter()
 
 		var n = 1
 		e.on('a', m => { n = (n * m) })
 
-		return () =>
+		yield () =>
 		{
-			e.emit('a', -1)
+			do_not_optimize(e.emit('a', -1))
 		}
-	}),
+	})
 
-	add('nanoevents', () =>
+	bench('nanoevents', function * ()
 	{
 		var e = Nanoevents()
 
 		var n = 1
 		e.on('mul', m => { n = (n * m) })
 
-		return () =>
+		yield () =>
 		{
-			e.emit('mul', -1)
+			do_not_optimize(e.emit('mul', -1))
 		}
-	}),
-])
+	})
+})
 
-Suite('(0) zero subscribers',
-[
+
+Suite('(0) zero subscribers', () =>
+{
 	/*
-	add('slot', () =>
+	bench('slot', function * ()
 	{
 		var s = Slot()
 
 		// var n = 1
 		// s.on(m => { n = (n * m) })
 
-		return () =>
+		yield () =>
 		{
 			s.emit(-1)
 		}
-	}),
+	})
 	//*/
 
-	add('emitter', () =>
+	bench('emitter', function * ()
 	{
 		var e = Emitter()
 
 		// var n = 1
 		// e.on(m => { n = (n * m) })
 
-		return () =>
+		yield () =>
 		{
-			e.emit(-1)
+			do_not_optimize(e.emit(-1))
 		}
-	}),
+	})
 
-	add('multi', () =>
+	bench('multi', function * ()
 	{
 		var e = MultiEmitter()
 
 		// var n = 1
 		// e.on('a', m => { n = (n * m) })
 
-		return () =>
+		yield () =>
 		{
-			e.emit('a', -1)
+			do_not_optimize(e.emit('a', -1))
 		}
-	}),
+	})
 
-	add('nanoevents', () =>
+	bench('nanoevents', function * ()
 	{
 		var e = Nanoevents()
 
 		// var n = 1
 		// e.on('mul', m => { n = (n * m) })
 
-		return () =>
+		yield () =>
 		{
-			e.emit('mul', -1)
+			do_not_optimize(e.emit('mul', -1))
 		}
-	}),
-])
+	})
+})
 
-Suite('(2) two subscribers',
-[
-	add('emitter', () =>
+
+Suite('(2) two subscribers', () =>
+{
+	bench('emitter', function * ()
 	{
 		var e = Emitter()
 
@@ -168,13 +158,13 @@ Suite('(2) two subscribers',
 		e.on(m => { n = (n * m) })
 		e.on(m => { n = (n * m) })
 
-		return () =>
+		yield () =>
 		{
 			e.emit(-1)
 		}
-	}),
+	})
 
-	add('multi', () =>
+	bench('multi', function * ()
 	{
 		var e = MultiEmitter()
 
@@ -182,13 +172,13 @@ Suite('(2) two subscribers',
 		e.on('a', m => { n = (n * m) })
 		e.on('a', m => { n = (n * m) })
 
-		return () =>
+		yield () =>
 		{
 			e.emit('a', -1)
 		}
-	}),
+	})
 
-	add('nanoevents', () =>
+	bench('nanoevents', function * ()
 	{
 		var e = Nanoevents()
 
@@ -196,16 +186,17 @@ Suite('(2) two subscribers',
 		e.on('mul', m => { n = (n * m) })
 		e.on('mul', m => { n = (n * m) })
 
-		return () =>
+		yield () =>
 		{
 			e.emit('mul', -1)
 		}
-	}),
-])
+	})
+})
 
-Suite('(10) ten subscribers',
-[
-	add('emitter', () =>
+
+Suite('(10) ten subscribers', () =>
+{
+	bench('emitter', function * ()
 	{
 		var e = Emitter()
 
@@ -215,13 +206,13 @@ Suite('(10) ten subscribers',
 			e.on(m => { n = (n * m) })
 		}
 
-		return () =>
+		yield () =>
 		{
 			e.emit(-1)
 		}
-	}),
+	})
 
-	add('multi', () =>
+	bench('multi', function * ()
 	{
 		var e = MultiEmitter()
 
@@ -231,13 +222,13 @@ Suite('(10) ten subscribers',
 			e.on('a', m => { n = (n * m) })
 		}
 
-		return () =>
+		yield () =>
 		{
 			e.emit('a', -1)
 		}
-	}),
+	})
 
-	add('nanoevents', () =>
+	bench('nanoevents', function * ()
 	{
 		var e = Nanoevents()
 
@@ -247,73 +238,75 @@ Suite('(10) ten subscribers',
 			e.on('mul', m => { n = (n * m) })
 		}
 
-		return () =>
+		yield () =>
 		{
 			e.emit('mul', -1)
 		}
-	}),
-])
+	})
+})
 
-Suite('(1 x 3) single subscriber, three arguments',
-[
+
+Suite('(1 x 3) single subscriber, three arguments', () =>
+{
 	/*
-	add('slot', () =>
+	bench('slot', function * ()
 	{
 		var s = Slot()
 
 		var n = 1
 		s.on((m1, m2, m3) => { n = (n * m1 * m2 * m3) })
 
-		return () =>
+		yield () =>
 		{
 			s.emit(-1, -1, -1)
 		}
-	}),
+	})
 	//*/
 
-	add('emitter', () =>
+	bench('emitter', function * ()
 	{
 		var e = Emitter()
 
 		var n = 1
 		e.on((m1, m2, m3) => { n = (n * m1 * m2 * m3) })
 
-		return () =>
+		yield () =>
 		{
 			e.emit(-1, -1, -1)
 		}
-	}),
+	})
 
-	add('multi', () =>
+	bench('multi', function * ()
 	{
 		var e = MultiEmitter()
 
 		var n = 1
 		e.on('a', (m1, m2, m3) => { n = (n * m1 * m2 * m3) })
 
-		return () =>
+		yield () =>
 		{
 			e.emit('a', -1, -1, -1)
 		}
-	}),
+	})
 
-	add('nanoevents', () =>
+	bench('nanoevents', function * ()
 	{
 		var e = Nanoevents()
 
 		var n = 1
 		e.on('mul', (m1, m2, m3) => { n = (n * m1 * m2 * m3) })
 
-		return () =>
+		yield () =>
 		{
 			e.emit('mul', -1, -1, -1)
 		}
-	}),
-])
+	})
+})
 
-Suite('(2 x 3) two subscribers, three arguments',
-[
-	add('emitter', () =>
+
+Suite('(2 x 3) two subscribers, three arguments', () =>
+{
+	bench('emitter', function * ()
 	{
 		var e = Emitter()
 
@@ -321,13 +314,13 @@ Suite('(2 x 3) two subscribers, three arguments',
 		e.on((m1, m2, m3) => { n = (n * m1 * m2 * m3) })
 		e.on((m1, m2, m3) => { n = (n * m1 * m2 * m3) })
 
-		return () =>
+		yield () =>
 		{
 			e.emit(-1, -1, -1)
 		}
-	}),
+	})
 
-	add('multi', () =>
+	bench('multi', function * ()
 	{
 		var e = MultiEmitter()
 
@@ -335,13 +328,13 @@ Suite('(2 x 3) two subscribers, three arguments',
 		e.on('a', (m1, m2, m3) => { n = (n * m1 * m2 * m3) })
 		e.on('a', (m1, m2, m3) => { n = (n * m1 * m2 * m3) })
 
-		return () =>
+		yield () =>
 		{
 			e.emit('a', -1, -1, -1)
 		}
-	}),
+	})
 
-	add('nanoevents', () =>
+	bench('nanoevents', function * ()
 	{
 		var e = Nanoevents()
 
@@ -349,16 +342,17 @@ Suite('(2 x 3) two subscribers, three arguments',
 		e.on('mul', (m1, m2, m3) => { n = (n * m1 * m2 * m3) })
 		e.on('mul', (m1, m2, m3) => { n = (n * m1 * m2 * m3) })
 
-		return () =>
+		yield () =>
 		{
 			e.emit('mul', -1, -1, -1)
 		}
-	}),
-])
+	})
+})
 
-Suite('(10 x 5) ten subscribers, five arguments',
-[
-	add('emitter', () =>
+
+Suite('(10 x 5) ten subscribers, five arguments', () =>
+{
+	bench('emitter', function * ()
 	{
 		var e = Emitter()
 
@@ -368,13 +362,13 @@ Suite('(10 x 5) ten subscribers, five arguments',
 			e.on((m1, m2, m3, m4, m5) => { n = (n * m1 * m2 * m3 * m4 * m5) })
 		}
 
-		return () =>
+		yield () =>
 		{
 			e.emit(-1, -1, -1, -1, -1)
 		}
-	}),
+	})
 
-	add('multi', () =>
+	bench('multi', function * ()
 	{
 		var e = MultiEmitter()
 
@@ -384,13 +378,13 @@ Suite('(10 x 5) ten subscribers, five arguments',
 			e.on('a', (m1, m2, m3, m4, m5) => { n = (n * m1 * m2 * m3 * m4 * m5) })
 		}
 
-		return () =>
+		yield () =>
 		{
 			e.emit('a', -1, -1, -1, -1, -1)
 		}
-	}),
+	})
 
-	add('nanoevents', () =>
+	bench('nanoevents', function * ()
 	{
 		var e = Nanoevents()
 
@@ -400,9 +394,12 @@ Suite('(10 x 5) ten subscribers, five arguments',
 			e.on('mul', (m1, m2, m3, m4, m5) => { n = (n * m1 * m2 * m3 * m4 * m5) })
 		}
 
-		return () =>
+		yield () =>
 		{
 			e.emit('mul', -1, -1, -1, -1, -1)
 		}
-	}),
-])
+	})
+})
+
+
+await run()

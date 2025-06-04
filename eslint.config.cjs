@@ -23,10 +23,14 @@ module.exports =
 		ignores: [ 'perf/min_*.js' ],
 	},
 	{
-		files: [ 'perf/perf.js' ],
+		files: [ 'perf/perf.mjs' ],
 		languageOptions:
 		{
 			sourceType: 'module',
+		},
+		rules:
+		{
+			'max-params': 0,
 		},
 	},
 	{

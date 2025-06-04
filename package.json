@@ -55,7 +55,7 @@
      "unit": "mocha -n 'import=tsx' --check-leaks test/*.test.ts",
     "cover": "c8 -r text -r html npm run unit",
 
-     "perf": "node perf/perf.mjs",
+     "perf": "node --expose-gc perf/perf.mjs",
      "leak": "node --inspect-brk test/leak",
 
      "mini": "perf/mini emitter.js && perf/mini multi.js && perf/mini slot.js"
@@ -105,8 +105,8 @@
       "0.24",
 
 
-    "benny":
-      "3.7",
+    "mitata":
+      "1.0.34",
 
     "nanoevents":
       "9"
